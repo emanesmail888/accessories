@@ -1,0 +1,43 @@
+/* Carousel.css */
+/* .carousel-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display:flex wrap ;
+
+  }
+
+   .carousel-item {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin: 10px;
+    height: 100px;
+     display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+  } */
+
+
+ /* Customize the product card container */
+.product-card {
+    /* Add your styles here */
+  }
+
+  /* Customize the product card image */
+  .product-card img {
+    /* Add your styles here */
+  }
+
+  /* Customize the product card title */
+  .product-card h3 {
+    /* Add your styles here */
+  }
+
+  /* Customize the product card description */
+  .product-card p {
+    /* Add your styles here */
+  }
+
+
