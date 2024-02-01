@@ -9,6 +9,8 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use http\Env\Response;
 use App\Models\User;
+use App\Models\Product;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -36,15 +38,20 @@ class CheckoutController extends Controller
         $order->zipCode=$request->shippingAddress ['zipCode'];
         $order->save();
          foreach ($request->orderItems as $item) {
+
             $orderItem=new OrderItem();
             $orderItem->product_id=$item['product'];
             $orderItem->order_id=$order->id;
             $orderItem->price=$item['price'];
             $orderItem->quantity=$item['qty'];
+            $product=Product::find($item['product']);
+
+
            $orderItem->save();
 
           }
-
+          $product->stock -= $orderItem->quantity;
+          $product->save();
           $response = [
             'order' => $order,
             'id'=>$order->id,
@@ -55,17 +62,7 @@ class CheckoutController extends Controller
 
           return response($response , 201);
 
-        // if ($this->paymentmode=='cod') {
-        //     // $transaction=new Transaction();
-        //     // $transaction->user_id=Auth::user()->id;
-        //     // $transaction->order_id=$order->id;
-        //     // $transaction->mode="cod";
-        //     // $transaction->status="pending";
-        //     // $transaction->save();
-        //     $this->makeTransaction($order->id,'pending');
-        // }
-
-
+       
 
 
     }

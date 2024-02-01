@@ -234,8 +234,12 @@ padding-top:50px;
 
 /*********************explore****************/
 #explore {
-      background-image: url(../img/5.jpg);
-}
+        background-image: url(../../../images/wedding2.jpg);
+        height: 600px;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+  }
 .explore_m{
 padding-top:130px;
 padding-bottom:130px;
@@ -264,6 +268,7 @@ background-color: #080d1526;
 /*********************list_last****************/
 #list_last{
 padding-top:40px;
+margin-top: 40px;
 padding-bottom:40px;
  }
 .list_last_1i span{
@@ -863,6 +868,10 @@ left:75%!important;
     .list_2i{
     border:1px solid #f4573729;
     padding:20px;
+    height: 400px;
+     }
+    .list_2i img{
+    height: 250px;
      }
     .list_2{
     margin-top:30px;
@@ -870,6 +879,7 @@ left:75%!important;
     .product_1r1{
     margin-top:30px;
      }
+
     /*********************product_end****************/
 
 
@@ -1025,12 +1035,12 @@ left:75%!important;
    }
   .center_3_top_2_left_new_4_inner h2 {
       text-align: center;
-      border: 1px solid #1c7b7b;
+      border: 1px solid #e26363;
       margin-top: 6px;
       padding-top: 15px;
       padding-bottom: 15px;
       box-shadow: 0px 0px 10px 2px;
-      background: #38808a;
+      background: #e26363;
   }
   .center_3_top_2_left_new_4_inner h2 a{
     font-size:24px;
@@ -1038,7 +1048,7 @@ left:75%!important;
     letter-spacing:1px;
    }
   .center_3_top_2_left_new_4_inner h2:hover{
-    background: #5aabab;
+    background: #e26363;
    }
   /*********************center_3_end****************/
 
@@ -1051,51 +1061,54 @@ left:75%!important;
   }
   .pagination .previousLabel
   {
-    background-color: #38808a;
+    background-color: #e26363;
     color: #FFFFFF;
   }
   .pagination .pagination__link{
-    background-color: #38808a;
+    background-color: #e26363;
     color: #FFFFFF;
 
 
   }
   .pagination .pagination__link:hover{
-    background-color: #38808a;
+    background-color: #e26363;
     color: #FFFFFF;
 
 
   }
   .pagination .pagination__link:focus{
-    background-color: #38808a;
+    background-color: #e26363;
     color: #FFFFFF;
-    border: #38808a;
+    border: #e26363;
     box-shadow: none;
 
   }
 
   .pagination li a {
     background-color: #FFFFFF;
-    color: #38808a;
+    color: #e26363;
     box-shadow: none;
-    border-color: #38808a;
+    border-color: #e26363;
   }
 
   .pagination li a:active {
-    background-color: #38808a !important;
+    background-color: #e26363 !important;
     color: #FFFFFF;
     border:none;
     box-shadow: none;
+    outline-color: #c92b38;
   }
   .pagination li a:focus {
-    background-color: #38808a !important;
+    background-color: #e26363 !important;
     color: #FFFFFF;
     border:none;
     margin:0px;
-    box-shadow: #38808a;
+    box-shadow: #e26363;
+    outline-color: #c92b38;
+
   }
    /* .pagination .pagination__link--active{
-    background-color: #38808a !important;
+    background-color: #e26363 !important;
     color: #FFFFFF;
   } */
 

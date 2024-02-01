@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
+use Illuminate\Http\Request;
+
 
 class CategoryController extends Controller
 {
@@ -29,6 +31,11 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $data = $request->validated();
+        if ($image=$request->file('image')) {
+            $imageName=$image->getClientOriginalName();
+            $image->move('categories/images',$imageName);
+            $data['image'] = $imageName;
+        }
         $category = Category::create($data);
 
         return response(new CategoryResource($category) , 201);
@@ -56,9 +63,16 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->validated();
-       
+        $data['name']  = $request->name;
+        //  $category->name = $request->name;
+        if ($image=$request->file('image')) {
+            $imageName=$image->getClientOriginalName();
+            $image->move('categories/images',$imageName);
+            // $category->image = $imageName;
+            $data['image'] = $imageName;
+        }
         $category->update($data);
-
+        // $category->save();
         return new CategoryResource($category);
     }
 

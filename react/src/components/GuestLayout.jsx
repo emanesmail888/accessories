@@ -3,7 +3,7 @@ import {Link,Navigate,Outlet} from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 
 function GuestLayout() {
-    const { user, token } = useStateContext();
+    const { user, token,notification } = useStateContext();
 
     if (token) {
       return <Navigate to="/" />;
@@ -12,16 +12,22 @@ function GuestLayout() {
 
 
   return (
+    <div>
+
     <div id="guestLayout">
-    {/* <aside>
-        <Link to="/login">Login</Link>
-        <Link to="/signup">SignUp</Link>
-      </aside> */}
+   
       <div className="content">
-      
+
         <main>
+
           <Outlet/>
         </main>
+        {notification &&
+          <div className="notification">
+            {notification}
+          </div>
+        }
+    </div>
     </div>
     </div>
   );

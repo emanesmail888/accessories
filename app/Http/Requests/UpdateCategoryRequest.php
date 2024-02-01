@@ -25,6 +25,10 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:55',
+            // 'image'    => 'nullable|image|max:20000,mimes:jpeg,jpg,png'
+            'image' =>  '',
+
+
         ];
     }
 }

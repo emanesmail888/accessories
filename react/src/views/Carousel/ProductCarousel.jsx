@@ -3,82 +3,6 @@ import './Carousel.css';
 // import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-// const ProductCarousel = () => {
-//     const responsive = {
-//         desktop: {
-//           breakpoint: { max: 3000, min: 1024 },
-//           items: 3,
-//           slidesToSlide: 3, // optional, default to 1.
-//         },
-//         tablet: {
-//           breakpoint: { max: 1024, min: 464 },
-//           items: 2,
-//           slidesToSlide: 2, // optional, default to 1.
-//         },
-//         mobile: {
-//           breakpoint: { max: 464, min: 0 },
-//           items: 1,
-//           slidesToSlide: 1, // optional, default to 1.
-//         },
-//       };
-
-//       const items = [
-//         {
-//           id: 1,
-//           title: 'Item 1',
-//         },
-//         {
-//           id: 2,
-//           title: 'Item 2',
-//         },
-//         {
-//           id: 3,
-//           title: 'Item 3',
-//         },
-//         {
-//           id: 3,
-//           title: 'Item 3',
-//         },
-//         {
-//           id: 3,
-//           title: 'Item 3',
-//         },
-//         {
-//           id: 3,
-//           title: 'Item 3',
-//         },
-//         {
-//           id: 3,
-//           title: 'Item 3',
-//         },
-//         // Add more items as needed
-//       ];
-
-//       return (
-//         // <Carousel responsive={responsive}>
-//         //   {items.map((item) => (
-//         //     <div key={item.id}>
-//         //       <h2>{item.title}</h2>
-//         //     </div>
-//         //   ))}
-//         // </Carousel>
-//         <Carousel responsive={responsive} itemClass="carousel-item-padding-40-px" containerClass="carousel-container">
-//       {items.map((item) => (
-//         <div key={item.id}>
-//           <h2>{item.title}</h2>
-//         </div>
-//       ))}
-//     </Carousel>
-//       );
-//     };
-
-
-// export default ProductCarousel;
-
-
-
-
-
 
 import {Swiper,SwiperSlide} from "swiper/react";
 import "swiper/swiper.min.css";
@@ -115,8 +39,8 @@ const ProductCarousel = () => {
 
         axiosClient.get(url)
         .then(({ data }) => {
-            console.log(data[0]);
-            setProducts(data[0])
+            console.log(data.products);
+            setProducts(data.products)
         })
 
     }
@@ -171,25 +95,14 @@ style={{
                                     <div className="product-image-wrapper">
                                         <div className="single-products">
                                                 <div className="productinfo text-center">
-                                                    <img src={'../../products_images/' + product.product_img} alt="" />
+                                                    <img src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+product.product_img} alt="" />
                                                     <h2>{product.price}</h2>
-                                                    <p>{product.product_title}</p>
-                                                    <a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+                                                    <p ><a href={`/pro/${product.id}`} style={{color:'gray'}} >{product.product_title}</a></p>
+                                                    <a href={`/cart/${product.id}?qty=1`} className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
                                                 </div>
-                                                { /*<div className="product-overlay">
-                                                    <div className="overlay-content">
-                                                        <h2>{product.price}</h2>
-                                                        <p>{product.product_title}</p>
-                                                        <a href="#" className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
-                                                    </div>
-                                                </div>*/ }
+
                                         </div>
-                                        <div className="choose">
-                                            <ul className="nav nav-pills nav-justified">
-                                                <li><a href="#"><i className="fa fa-plus-square"></i>Add to wishlist</a></li>
-                                                <li><a href="#"><i className="fa fa-plus-square"></i>Add to compare</a></li>
-                                            </ul>
-                                        </div>
+
                                     </div>
                                     </SwiperSlide>
 

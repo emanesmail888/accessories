@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosClient from "../axios-client";
 
 
@@ -24,11 +23,10 @@ import {
   ORDER_DELIVER_FAIL,
   CART_CLEAR_ITEMS
 } from "./types";
-import { json } from "react-router-dom";
 
 
 /* ACTION CREATOR USED IN CREATING ORDER IN PlaceOrder COMPONENT  */
-export const createOrder = (order) => async (dispatch, getState) => {
+export const createOrder = (order) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
@@ -89,14 +87,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
     /* IF GET REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
-    //   payload: {
-
-
-    //     orderItems: data[1],
-
-    //   },
       payload: {order:data[0][0],orderItems:data[1]} ,
-    //   payload: data
     });
   } catch (error) {
     dispatch({
@@ -166,37 +157,20 @@ export const listMyOrders = () => async (dispatch) => {
 };
 
 /* ACTION CREATOR USED IN FETCHING ALL USERS ORDERS IN OrderListScreen COMPONENT */
-export const listOrders = () => async (dispatch, getState) => {
+export const listOrders = () => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_LIST_REQUEST,
     });
 
 
-    const token =  localStorage.getItem('access');
-    console.log(token);
-
-
-    const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${token}`,
-                'Accept': 'application/json'
-
-
-
-            }
-        };
-
-
-
     /* MAKING API CALL TO GET THE DETAILS OF ALL THE ORDERS MADE BY THE ALL THE USERS */
-    const { data } = await axios.get(`/getOrders/`, config);
+    const { data } = await axiosClient.get(`/admin/getAllOrders`);
 
     /* IF GET REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({
       type: ORDER_LIST_SUCCESS,
-      payload: data,
+      payload: data[0],
     });
   } catch (error) {
     dispatch({
@@ -210,35 +184,15 @@ export const listOrders = () => async (dispatch, getState) => {
 };
 
 /* ACTION CREATOR USED IN MARKING DELIVERY STATUS OF ORDERS IN OrderScreen COMPONENT  */
-export const deliverOrder = (order) => async (dispatch, getState) => {
+export const deliverOrder = (id) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_DELIVER_REQUEST,
     });
 
-
-    const token =  localStorage.getItem('access');
-    console.log(token);
-
-
-    const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `JWT ${token}`,
-                'Accept': 'application/json'
-
-
-
-            }
-        };
-
-
     /* MAKING API CALL TO UPDATE ORDER DELIVERY STATUS */
-    const { data } = await axios.put(
-      `/getOrders/${order.id}/deliver/`,
-      {},
-      config
-    );
+
+    const { data } = await axiosClient.post(`/admin/getOrders/${id}/deliver`);
 
     /* IF PUT REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({

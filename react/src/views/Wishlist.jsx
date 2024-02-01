@@ -12,7 +12,7 @@ import {
 
 const Wishlist = () => {
     const wishlist = useSelector((state) => state.wishlist);
-    const { wishlistItems, loading, error } = wishlist;
+    const { wishlistItems, loading } = wishlist;
     console.log(wishlist);
     const dispatch = useDispatch();
 
@@ -47,19 +47,16 @@ const Wishlist = () => {
                             <div className="single-products">
                                 <div className="productinfo text-center">
                                     <img
-                                        src={
-                                            "../../products_images/" +
-                                            item.product_img
-                                        }
+                                        src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+item.product_img}
                                         alt=""
                                     />
                                     <h2>{item.price}</h2>
-                                    <p>{item.product_title}</p>
+                                    <p><a href={`/pro/${item.id}`}>{item.product_title}</a></p>
                                     {wishlistItems.filter(
                                         (w) => item.id === w.product_id
                                     ).length !== 0 ? (
                                         <Link
-                                            style={{ color: "red" }}
+                                            style={{color: '#d93d3d'}}
                                             onClick={() =>
                                                 removeFromWishlistHandler(
                                                     item.id
@@ -70,7 +67,7 @@ const Wishlist = () => {
                                         </Link>
                                     ) : (
                                         <Link
-                                            style={{ boxShadow: " #CC9999" }}
+                                            style={{color:' rgb(233, 144, 144)'}}
                                             onClick={() =>
                                                 AddToWishlistHandler(item.id)
                                             }
@@ -89,7 +86,7 @@ const Wishlist = () => {
                                 <div className="product-overlay">
                                     <div className="overlay-content">
                                         <h2>{item.price}</h2>
-                                        <p>{item.product_title}</p>
+                                        <p><a href={`/pro/${item.id}`}>{item.product_title}</a></p>
                                         {/* <Link style={{color: 'red'}} onClick={() => AddToWishlistHandler(product.id)}>wishlist</Link> */}
                                         {/* <button onClick={() => handleRemoveFromWishlist(item.product_id)}>
                                                             Remove

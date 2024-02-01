@@ -75,12 +75,13 @@ function Cart() {
                   <ListGroup.Item key={item.product}>
                     <Row>
                       <Col md={3}>
-                        <Image src={'../../products_images/' + item.image} style={{width: '100px' ,height:'70px'}} alt={item.name} fluid rounded />
+                        <Image src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+item.image} style={{width: '100px' ,height:'70px'}} alt={item.name} fluid rounded />
                       </Col>
+
 
                       <Col md={2}  >
                         {/* <Link to={`/admin/product/${item.product}/`}>{item.name}</Link> */}
-                        <h5>{item.name}</h5>
+                        <h5><a href={`/pro/${item.product}`}>{item.name}</a></h5>
                       </Col>
 
                       <Col md={2} >

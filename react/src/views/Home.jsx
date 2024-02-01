@@ -21,6 +21,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import HomeCategories from './HomeCategories.jsx';
 
 import PopularProducts from './PopularProducts.jsx';
+import NewArrival from './NewArrival.jsx';
 
 
 
@@ -206,7 +207,7 @@ function Home() {
 	    <h4><i className="fa fa-rupee"></i> 2266 Onwards</h4>
 	   </div>
 	   <div className="col-sm-6 space_all">
-	    <h5 className="text-right"><a className="button_1 mgt" href="#">SHOP NOW</a></h5>
+	    <h5 className="text-right"><a className="button_1 mgt" href="/shop">SHOP NOW</a></h5>
 	   </div>
 	  </div>
 	 </div>
@@ -221,7 +222,7 @@ function Home() {
 	    <h4><i className="fa fa-rupee"></i> 2746 Onwards</h4>
 	   </div>
 	   <div className="col-sm-6 space_all">
-	    <h5 className="text-right"><a className="button_1 mgt" href="#">SHOP NOW</a></h5>
+	    <h5 className="text-right"><a className="button_1 mgt" href="/shop">SHOP NOW</a></h5>
 	   </div>
 	  </div>
 	 </div>
@@ -236,7 +237,7 @@ function Home() {
 	    <h4><i className="fa fa-rupee"></i> 2986 Onwards</h4>
 	   </div>
 	   <div className="col-sm-6 space_all">
-	    <h5 className="text-right"><a className="button_1 mgt" href="#">SHOP NOW</a></h5>
+	    <h5 className="text-right"><a className="button_1 mgt" href="/shop">SHOP NOW</a></h5>
 	   </div>
 	  </div>
 	 </div>
@@ -253,7 +254,7 @@ function Home() {
 	    <h4><i className="fa fa-rupee"></i> 2266 Onwards</h4>
 	   </div>
 	   <div className="col-sm-6 space_all">
-	    <h5 className="text-right"><a className="button_1 mgt" href="#">SHOP NOW</a></h5>
+	    <h5 className="text-right"><a className="button_1 mgt" href="/shop">SHOP NOW</a></h5>
 	   </div>
 	  </div>
 	 </div>
@@ -268,7 +269,7 @@ function Home() {
 	    <h4><i className="fa fa-rupee"></i> 2746 Onwards</h4>
 	   </div>
 	   <div className="col-sm-6 space_all">
-	    <h5 className="text-right"><a className="button_1 mgt" href="#">SHOP NOW</a></h5>
+	    <h5 className="text-right"><a className="button_1 mgt" href="/shop">SHOP NOW</a></h5>
 	   </div>
 	  </div>
 	 </div>
@@ -283,7 +284,7 @@ function Home() {
 	    <h4><i className="fa fa-rupee"></i> 2986 Onwards</h4>
 	   </div>
 	   <div className="col-sm-6 space_all">
-	    <h5 className="text-right"><a className="button_1 mgt" href="#">SHOP NOW</a></h5>
+	    <h5 className="text-right"><a className="button_1 mgt" href="/shop">SHOP NOW</a></h5>
 	   </div>
 	  </div>
 	 </div>
@@ -332,82 +333,8 @@ function Home() {
 	  </div>
 	 </div>
    </div>
-   <div className="list_2 clearfix">
-     <div id="carousel-example_2" className="carousel slide" data-ride="carousel">
-            <div className="carousel-inner">
-                <div className="item active">
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-					    {/* <a href="#"><img src="img/6.jpg" className="iw" alt="abc"></a> */}
-						<h3><i className="fa fa-rupee"></i> 4566</h3>
-						<h4><a className="col_1" href="#">Nibh Elementum</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-					    {/* <a href="#"><img src="img/7.jpg" className="iw" alt="abc"></a> */}
-						<h3><i className="fa fa-rupee"></i> 4986</h3>
-						<h4><a className="col_1" href="#">Fusce Nec Tellus</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-					    {/* <a href="#"><img src="img/8.jpg" className="iw" alt="abc"></a> */}
-						<h3><i className="fa fa-rupee"></i> 5696</h3>
-						<h4><a className="col_1" href="#">Nulla Quis Sem</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-						<h3><i className="fa fa-rupee"></i> 5836</h3>
-						<h4><a className="col_1" href="#">Vestibulum Lacinia</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-                </div>
-                <div className="item">
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-						<h3><i className="fa fa-rupee"></i> 4566</h3>
-						<h4><a className="col_1" href="#">Nibh Elementum</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-						<h3><i className="fa fa-rupee"></i> 4986</h3>
-						<h4><a className="col_1" href="#">Fusce Nec Tellus</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-						<h3><i className="fa fa-rupee"></i> 5696</h3>
-						<h4><a className="col_1" href="#">Nulla Quis Sem</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-					<div className="col-sm-3">
-					  <div className="list_2i clearfix mgt-center">
-						<h3><i className="fa fa-rupee"></i> 5836</h3>
-						<h4><a className="col_1" href="#">Vestibulum Lacinia</a></h4>
-						<h6>Product Code: 12LDSJECR03</h6>
-					  </div>
-					</div>
-                </div>
-            </div>
-        </div>
-	 <div className="feature_2_last text-center clearfix">
-            <div className="col-sm-12">
-                <div className="controls">
-                    <a className="left fa fa-chevron-left btn btn-success" href="#carousel-example_2" data-slide="prev"></a><a className="right fa fa-chevron-right btn btn-success" href="#carousel-example_2" data-slide="next"></a>
-                </div>
-            </div>
-        </div>
-   </div>
+
+ <NewArrival/>
   </div>
  </div>
 </section>
@@ -422,12 +349,12 @@ function Home() {
 	   <div className="collect_1ll clearfix">
 	    <h4 className="mgt col_1">Trending Product</h4>
 		<h3>Maybe You’ve Earned it</h3>
-		<h5><a className="button_1 mgt" href="#"> Shop Now</a></h5>
+		<h5><a className="button_1 mgt" href="/shop"> Shop Now</a></h5>
 	   </div>
 	  </div>
 	  <div className="col-sm-7 space_right">
 	   <div className="collect_1lr clearfix">
-       <a href="#"><img src="images/trend1.jpg" alt="abc" className="iw2"/></a>
+       <a href="#"><img src="images/gold-wedding-ring-golden-ring.jpg" alt="abc" className="iw2"/></a>
 
 	   </div>
 	  </div>
@@ -454,15 +381,11 @@ function Home() {
 	  <div className="explore_1l text-center clearfix">
 	   <h1 className="mgt col_1">Wedding Collection</h1>
 	   <p className="col">We craft exceptionally fashionable & trendy designs to make you look beautiful every day.</p>
-	   <h3 className="col_3">Starting at <i className="fa fa-rupee"></i> 49342 Only</h3>
-	   <h4><a className="button_1" href="#">EXPLORE OUR COLLECTIONS</a></h4>
+	   <h3 className="col_3">Starting at <i className="fa fa-rupee"></i> 100 EGp Only</h3>
+	   <h4><a className="button_1" href={'/category_products/8' }>EXPLORE OUR COLLECTIONS</a></h4>
 	  </div>
 	 </div>
-	 <div className="col-sm-6">
-	  <div className="explore_1r clearfix">
 
-      </div>
-	 </div>
 	</div>
    </div>
   </div>
@@ -566,41 +489,15 @@ function Home() {
 	</div>
    </div>
    <div className="footer_1 clearfix">
-    <div className="col-sm-2">
-	 <div className="footer_1i clearfix">
-	  <h4 className="mgt col_3">Our Properties</h4>
-	  <h5><a className="hvr-forward col" href="#">Semper Porta</a></h5>
-	  <h5><a className="hvr-forward col" href="#">Nec Tellus</a></h5>
-	 </div>
-	</div>
-	<div className="col-sm-2">
-	 <div className="footer_1i clearfix">
-	  <h4 className="mgt col_3">Advertisement</h4>
-	  <h5><a className="hvr-forward col" href="#">Print Media</a></h5>
-	  <h5><a className="hvr-forward col" href="#">TV Commercials</a></h5>
-	  <h5><a className="hvr-forward col" href="#">Photo Gallery</a></h5>
-	  <h5><a className="hvr-forward col" href="#">Video Gallery</a></h5>
-	  <h5><a className="hvr-forward col" href="#">Press Room</a></h5>
-	 </div>
-	</div>
-	<div className="col-sm-2">
-	 <div className="footer_1i clearfix">
-	  <h4 className="mgt col_3">Follow Us</h4>
-	  <h5><a className="hvr-forward col" href="#">Facebook</a></h5>
-	  <h5><a className="hvr-forward col" href="#">Twitter</a></h5>
-	  <h5><a className="hvr-forward col" href="#">Instagram</a></h5>
-	  <h5><a className="hvr-forward col" href="#">Youtube</a></h5>
-	 </div>
-	</div>
+
 	<div className="col-sm-6">
 	 <div className="footer_1i clearfix">
-	  <h4 className="mgt col_3">Social Links</h4>
-		 <ul className="social-network social-circle">
-							<li><a href="#" className="icoRss" title="Rss"><i className="fa fa-rss"></i></a></li>
-							<li><a href="#" className="icoFacebook" title="Facebook"><i className="fa fa-facebook"></i></a></li>
-							<li><a href="#" className="icoTwitter" title="Twitter"><i className="fa fa-twitter"></i></a></li>
-							<li><a href="#" className="icoGoogle" title="Google +"><i className="fa fa-google-plus"></i></a></li>
-							<li><a href="#" className="icoLinkedin" title="Linkedin"><i className="fa fa-linkedin"></i></a></li>
+		 <ul className="social-network social-circle " style={{display:'inline-flex'}}>
+            <li><a href="#" className="icoRss" title="Rss"><i className="fa fa-rss"></i></a></li>
+            <li><a href="#" className="icoFacebook" title="Facebook"><i className="fa fa-facebook"></i></a></li>
+            <li><a href="#" className="icoTwitter" title="Twitter"><i className="fa fa-twitter"></i></a></li>
+            <li><a href="#" className="icoGoogle" title="Google +"><i className="fa fa-google-plus"></i></a></li>
+            <li><a href="#" className="icoLinkedin" title="Linkedin"><i className="fa fa-linkedin"></i></a></li>
 		 </ul>
 	 </div>
 	</div>
@@ -613,21 +510,23 @@ function Home() {
  <div className="container">
   <div className="row">
    <div className="footer_b clearfix">
-	 <div className="col-sm-5 space_left">
-	  <div className="footer_br clearfix">
+	 <div className="col-md-8 space_left">
+	  <div className="footer_br d-flex clearfix">
 	  <ul className="mgt">
 	   <li>
 		<a href="#">Our Policy</a>
-		<a href="#">Shipping</a>
 		<a href="#">Terms & Conditions</a>
-		<a className="border_none" href="#">Refund Policy</a>
+		<a  href="#">RefundPolicy   </a>
 	   </li>
+
+
 	  </ul>
+
 	 </div>
 	 </div>
-	 <div className="col-sm-7 space_left">
-	  <div className="footer_bl  text-right clearfix">
-	   <p>© 2013 Your Website Name. All Rights Reserved | Design by <a className="col_1" href="http://www.templateonweb.com">TemplateOnWeb</a></p>
+	 <div className="col-md-4 space_left">
+	  <div className="footer_bl clearfix ">
+	   <h6 className='d-flex'>All Rights Reserved|Design by|EE</h6>
 	  </div>
 	 </div>
    </div>

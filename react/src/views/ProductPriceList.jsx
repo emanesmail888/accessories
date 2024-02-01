@@ -5,51 +5,102 @@ import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
+import ReactPaginate from 'react-paginate';
 
 import {
     addToWishlist,
     removeFromWishlist,
     fetchWishlist,
 } from "../actions/wishlistAction.jsx";
+import {useStateContext} from "../contexts/ContextProvider";
 
 function ProductPriceList() {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [categories, setCategories] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
-    const itemsPerPage = 20;
-    const { min, max } = useParams();
+    const { token} = useStateContext();
     const wishlist = useSelector((state) => state.wishlist);
     const { wishlistItems } = wishlist;
+    const ITEMS_PER_PAGE = 12;
+    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [selectedProducts, setSelectedProducts] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(0);
+
+
+
+    // const [currentPage, setCurrentPage] = useState(1);
+
+    const { min, max } = useParams();
+
     const dispatch = useDispatch();
     useEffect(() => {
         fetchProducts();
-        dispatch(fetchWishlist());
-    }, [min, max, currentPage]);
+        fetchCategories();
+        if (token) {
+            dispatch(fetchWishlist());
+        }
+    }, [min, max]);
+     // Calculate the start and end indices based on the current page
+     const startIndex = page * ITEMS_PER_PAGE;
+     const endIndex = startIndex + ITEMS_PER_PAGE;
+     const visibleData = products.slice(startIndex, endIndex);
 
     const fetchProducts = () => {
         setLoading(true);
 
-        let url = `/products_price?page=${currentPage}&limit=${itemsPerPage}&min=${min}&max=${max}`;
+        let url = `/products_price?min=${min}&max=${max}`;
 
-        // if (min && max) {
-        //   url += `?min=${min}&max=${max}`;
-        // }
 
-        axiosClient
-            .get(url)
-            .then(({ data }) => {
-                console.log(data);
-                console.log(data.total);
-                console.log(data.links.length);
-                setLoading(false);
-                setProducts(data.data);
-                setTotalPages(data.links.length);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
+        axiosClient.get(url)
+        .then(({ data }) => {
+            console.log(data);
+            setLoading(false);
+
+            setProducts(data.products)
+            setTotalPages(Math.ceil(data.products.length/ITEMS_PER_PAGE));
+            setSelectedProducts([parseInt(min),' ANd ' , parseInt(max)]);
+
+
+        })
+        .catch(() => {
+            setLoading(false);
+        });
+
     };
+
+
+    const handlePage = ({ selected }) => {
+        setPage(selected);
+      };
+      const fetchCategories = () => {
+        let url = '/home';
+
+
+        axiosClient.get(url)
+        .then(({ data }) => {
+            console.log(data.categories);
+
+            setCategories(data.categories)
+        })
+
+    }
+
+    const filterItem = (catItem) => {
+        let url = '/shop';
+        axiosClient.get(url)
+        .then(({ data }) => {
+            console.log(data);
+            const res= data.products.filter((item) => catItem === item.cat_id)
+            setProducts(res)
+            setTotalPages(Math.ceil(res.length/ITEMS_PER_PAGE));
+            setSelectedCategory(parseInt(catItem));
+
+
+
+        })
+    }
+
 
     const AddToWishlistHandler = (id) => {
         dispatch(addToWishlist(id));
@@ -58,27 +109,8 @@ function ProductPriceList() {
         dispatch(removeFromWishlist(id));
         dispatch(fetchWishlist());
     };
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
-    const renderPageNumbers = () => {
-        const pageNumbers = [];
-
-        for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.push(
-                <button
-                    key={i}
-                    onClick={() => handlePageChange(i)}
-                    className={currentPage === i ? "active" : ""}
-                >
-                    {i}
-                </button>
-            );
-        }
-
-        return pageNumbers;
-    };
+      // Find the category item with the matching id
+const selectedCat = categories.find(category => category.id === selectedCategory);
 
     return (
         <div>
@@ -88,197 +120,38 @@ function ProductPriceList() {
                         <div className="col-sm-3">
                             <div className="left-sidebar">
                                 <h2>Category</h2>
-                                <div
-                                    className="panel-group category-products"
-                                    id="accordian"
-                                >
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a
-                                                    data-toggle="collapse"
-                                                    data-parent="#accordian"
-                                                    href="#sportswear"
-                                                >
-                                                    <span className="badge pull-right">
-                                                        <i className="fa fa-plus"></i>
-                                                    </span>
-                                                    Sportswear
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div
-                                            id="sportswear"
-                                            className="panel-collapse collapse"
-                                        >
-                                            <div className="panel-body">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">Nike </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Under Armour{" "}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Adidas </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Puma</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">ASICS </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a
-                                                    data-toggle="collapse"
-                                                    data-parent="#accordian"
-                                                    href="#mens"
-                                                >
-                                                    <span className="badge pull-right">
-                                                        <i className="fa fa-plus"></i>
-                                                    </span>
-                                                    Mens
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div
-                                            id="mens"
-                                            className="panel-collapse collapse"
-                                        >
-                                            <div className="panel-body">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">Fendi</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Guess</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Valentino
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Dior</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Versace</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Armani</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Prada</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Dolce and Gabbana
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Chanel</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Gucci</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div className="panel-group category-products" id="accordian">
+							<div className="panel panel-default">
 
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a
-                                                    data-toggle="collapse"
-                                                    data-parent="#accordian"
-                                                    href="#womens"
-                                                >
-                                                    <span className="badge pull-right">
-                                                        <i className="fa fa-plus"></i>
-                                                    </span>
-                                                    Womens
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div
-                                            id="womens"
-                                            className="panel-collapse collapse"
-                                        >
-                                            <div className="panel-body">
-                                                <ul>
-                                                    <li>
-                                                        <a href="#">Fendi</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Guess</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            Valentino
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Dior</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">Versace</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a href="#">Kids</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a href="#">Fashion</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a href="#">Households</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a href="#">Interiors</a>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4 className="panel-title">
-                                                <a href="#">Clothing</a>
-                                            </h4>
-                                        </div>
-                                    </div>
+
+                            {categories.map(c => (
+
+                                <div key={c.id}>
+                                <div className="panel-heading">
+                                    <h4 className="panel-title">
+
+                                        <button onClick={() => filterItem(c.id)}>{c.name}</button>
+
+                                    </h4>
                                 </div>
+
+
+                                </div>
+                            ))}
+
+
+							</div>
+
+
+						</div>
                             </div>
                         </div>
 
                         <div className="col-sm-9 padding-right">
-                            <h2 className="title text-center">
-                                Features Items
-                            </h2>
+                        {selectedCat?(<h2 className="title text-center">Features Items of {selectedCat.name}</h2>):
+                        (<h2 className="title text-center">Features Items of {selectedProducts}</h2>)}
+
+                  
                             {loading && (
                                 <table>
                                     <tbody>
@@ -295,98 +168,61 @@ function ProductPriceList() {
                             )}
                             {!loading && (
                                 <div className="features_items ">
-                                    {products.map((product) => (
-                                        <div key={product.id}>
-                                            <div className="col-sm-3">
-                                                <div className="product-image-wrapper">
-                                                    <div className="single-products">
-                                                        <div className="productinfo text-center">
-                                                            <img
-                                                                src={
-                                                                    "../../products_images/" +
-                                                                    product.product_img
-                                                                }
-                                                                alt=""
-                                                            />
-                                                            <h2>
-                                                                {product.price}
-                                                            </h2>
-                                                            <p>
-                                                                {
-                                                                    product.product_title
-                                                                }
-                                                            </p>
-                                                            {wishlistItems.filter(
-                                                                (w) =>
-                                                                    product.id ===
-                                                                    w.product_id
-                                                            ).length !== 0 ? (
-                                                                <Link
-                                                                    style={{
-                                                                        color: "red",
-                                                                    }}
-                                                                    onClick={() =>
-                                                                        removeFromWishlistHandler(
-                                                                            product.id
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <i className="fa fa-heart fa-2x"></i>
-                                                                </Link>
-                                                            ) : (
-                                                                <Link
-                                                                    style={{
-                                                                        boxShadow:
-                                                                            " #CC9999",
-                                                                    }}
-                                                                    onClick={() =>
-                                                                        AddToWishlistHandler(
-                                                                            product.id
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    <i className="fa fa-heart  fa-2x"></i>
-                                                                </Link>
-                                                            )}
-                                                            <a
-                                                                href={`/cart/${product.id}?qty=1`}
-                                                                className="btn btn-default add-to-cart"
-                                                            >
-                                                                <i className="fa fa-shopping-cart"></i>
-                                                                Add to cart
-                                                            </a>
-                                                        </div>
-                                                        <div className="product-overlay">
-                                                            <div className="overlay-content">
-                                                                <h2>
-                                                                    {
-                                                                        product.price
-                                                                    }
-                                                                </h2>
-                                                                <p>
-                                                                    {
-                                                                        product.product_title
-                                                                    }
-                                                                </p>
-                                                                <a
-                                                                    href={`/cart/${product.id}?qty=1`}
-                                                                    className="btn btn-default add-to-cart"
-                                                                >
-                                                                    <i className="fa fa-shopping-cart"></i>
-                                                                    Add to cart
-                                                                </a>
-                                                            </div>
-                                                        </div>
+                                {visibleData.map(product => (
+                    <div key={product.id}>
+                        <div className="col-sm-3">
+                                    <div className="product-image-wrapper">
+                                        <div className="single-products">
+                                                <div className="productinfo text-center">
+                                                    <img src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+product.product_img} alt="" />
+                                                    <h2>{product.price}</h2>
+                                                    <p><a href={`/pro/${product.id}`} style={{color:'grey'}}>{product.product_title}</a></p>
+
+                                     {wishlistItems.filter((w) => product.id === w.product_id).length !== 0 ?
+
+                                        <Link style={{color: '#d93d3d'}} onClick={() => removeFromWishlistHandler(product.id)}><i className="fa fa-heart fa-2x"></i></Link>
+                                        :<Link style={{color:' rgb(233, 144, 144)'}} onClick={() => AddToWishlistHandler(product.id)}><i className="fa fa-heart  fa-2x"></i></Link>
+                                        }
+
+                                                    <a href={`/cart/${product.id}?qty=1`} className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                                <div className="product-overlay">
+                                                    <div className="overlay-content">
+                                                        <h2>{product.price}</h2>
+                                                        <p><a href={`/pro/${product.id}`}>{product.product_title}</a></p>
+                                                        <a href={`/cart/${product.id}?qty=1`} className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
                                                     </div>
                                                 </div>
-                                            </div>
                                         </div>
-                                    ))}
+
+                                    </div>
+                        </div>
+
+                    </div>
+                    ))}
                                 </div>
                             )}
-                            <div className="pagination">
+                            {/* <div className="pagination">
                                 {renderPageNumbers()}
-                            </div>
+                            </div> */}
+
+                            <ReactPaginate
+
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        breakLabel="..."
+                        pageCount={totalPages}
+                        marginPagesDisplayed={1}
+                        pageRangeDisplayed={3}
+                        onPageChange={handlePage}
+                        containerClassName="pagination"
+                        previousLinkClassName={"pagination__link"}
+                        nextLinkClassName={"pagination__link"}
+                        disabledClassName={"pagination__link--disabled"}
+                        activeClassName={"pagination__link--active"}
+                        // activeClassName="active"
+                        />
+
                         </div>
                     </div>
                 </div>

@@ -19,9 +19,28 @@ h5 a{
     color: #b72424;
 }
 
-
+label{
+    padding-right: 25px;
+    width: 80px;
+}
 
 input {
+    outline: 0;
+    background: #ffffff;
+    width: 100%;
+    border: 2px solid #e6e6e6;
+    margin: 0 0 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+
+input:focus {
+    border-color: #d93d3d;
+}
+select {
     outline: 0;
     background: #ffffff;
     width: 100%;
@@ -31,10 +50,11 @@ input {
     box-sizing: border-box;
     font-size: 14px;
     transition: all 0.3s;
+
 }
 
 
-input:focus {
+select:focus {
     border-color: #d93d3d;
 }
 
@@ -382,6 +402,15 @@ table > tbody > tr > td {
     transition: all 0.3s;
 
 }
+a i:hover{
+    color:  #d93d3d;
+}
+
+/* .paypal-buttons:nth-child(n+2) {
+    display: none;
+    } */
+
+
 
 
 

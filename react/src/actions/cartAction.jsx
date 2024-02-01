@@ -15,7 +15,7 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
   // FETCHING PRODUCT DATA
 
   const { data } = await axiosClient.get(`/pro/${id}/ `);
-  console.log(data[0]);
+  console.log(data.product);
 
 
 
@@ -24,11 +24,11 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
     payload: {
 
 
-      product: data[0].id,
-      name: data[0].product_title,
-      image: data[0].product_img,
-      price: data[0].price,
-      countInStock: data[0].stock,
+      product: data.product.id,
+      name: data.product.product_title,
+      image: data.product.product_img,
+      price: data.product.price,
+      countInStock: data.product.stock,
       qty,
     },
   });

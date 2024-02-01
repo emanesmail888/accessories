@@ -1,44 +1,69 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import router from "./router.jsx";
+// import Router from "./router.jsx";
 import {ContextProvider} from './contexts/ContextProvider.jsx';
+import { BrowserRouter as Router, Routes } from 'react-router-dom';
+
 
 
 import './index.css'
 // import App from './App.jsx';
-import {RouterProvider} from "react-router-dom";
+import { Route } from 'react-router-dom';
+
+// import {RouterProvider} from "react-router-dom";
 import { Provider } from 'react-redux';
 import store from './store.js';
-import Nav from "./views/Nav.jsx";
+import Nav from './views/Nav.jsx';
+
+// import Nav from "./views/Nav.jsx";
 
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+
 <React.StrictMode>
-{/* <Provider store={store}>
 
-
-       <ContextProvider>
-
-       <App />
-       </ContextProvider>
-       </Provider> */}
 
     <Provider store={store}>
+    
 
       <ContextProvider>
-      <Nav></Nav>
+      {/* <Router>
 
 
-<RouterProvider router={router} />
+<Nav></Nav>
+</Router>
+
+<RouterProvider
+
+
+ router={router}/> */}
+
+ <Router>
+          <Nav />
+          <Routes>
+            {router.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={route.element}
+              >
+                {route.children && route.children.map((childRoute, childIndex) => (
+                  <Route
+                    key={`${index}-${childIndex}`}
+                    path={childRoute.path}
+                    element={childRoute.element}
+                  />
+                ))}
+              </Route>
+            ))}
+          </Routes>
+        </Router>
 
 </ContextProvider>
 
     </Provider>
-
-
-
-
 
 
 

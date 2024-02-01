@@ -22,16 +22,6 @@ use App\Http\Controllers\Api\CheckoutController;
 |
 */
 
-// Route::middleware(['auth:sanctum','verified'])->group(function () {
-//     Route::get('/user/dashboard',UserDashboardComponent::class)->name('user.dashboard');
-//     Route::get('/user/orders',UserOrdersComponent::class)->name('user.orders');
-//     Route::get('/user/orders/{order_id}',UserOrderDetailsComponent::class)->name('user.orderDetails');
-//     Route::get('/user/review/{order_item_id}',UserReviewComponent::class)->name('user.review');
-//     Route::get('/user/change-password',UserChangePasswordComponent::class)->name('user.changePassword');
-//     Route::get('/user/profile',ProfileComponent::class)->name('user.profile');
-//     Route::get('/user/profile/edit',UserEditProfileComponent::class)->name('user.editProfile');
-
-// });
 
 
 Route::middleware(['auth:sanctum','verified'])->group(function () {
@@ -45,10 +35,14 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
     Route::post('/getOrders/{id}/pay', [ProductController::class, 'updateOrderToPaid']);
     Route::post('/wishlist', [ProductController::class, 'wishlist']);
     Route::post('/profile', [ProductController::class, 'addProfile']);
+    Route::post('/profile/{id}', [ProductController::class, 'updateProfile']);
     Route::get('/profile', [ProductController::class, 'profile']);
     Route::get('/userOrders', [ProductController::class, 'userOrders']);
     Route::get('/wishlist', [ProductController::class, 'wishlistList']);
     Route::get('/wishlist/remove/{id}', [ProductController::class, 'deleteWishlistItem']);
+    Route::get('/orders/remove/{id}', [ProductController::class, 'deleteOrder']);
+    Route::post('/add_review', [ProductController::class, 'add_review']);
+    Route::get('/review/delete/{id}', [ProductController::class, 'delete_review']);
 
 
 });
@@ -58,12 +52,16 @@ Route::prefix('/admin')->middleware(['auth:sanctum','AuthAdmin'])->group(functio
 
 
     Route::apiResource('/users', UserController::class);
-    Route::apiResource('/products', ProductController::class);
-   //  Route::apiResource('/products', ProductsController::class);
-    Route::apiResource('/categories', CategoryController::class);
+    // Route::apiResource('/products', ProductController::class);
+    Route::get('/products', [ProductController::class,'index']);
+    Route::post('/products', [ProductController::class,'store']);
+    Route::get('/products/{product}', [ProductController::class, 'show']);
     Route::post('/product/{id}', [ProductController::class, 'update']);
-
-
+    Route::delete('/products/{product}', [ProductController::class,'destroy']);
+    Route::apiResource('/categories', CategoryController::class);
+    Route::post('/getOrders/{id}/deliver', [ProductController::class, 'updateOrderToDelivered']);
+    Route::get('/getAllOrders', [ProductController::class, 'allOrders']);
+    Route::post('/markAsNewArrive/{id}', [ProductController::class, 'markAsNewArrive']);
 
 });
 
@@ -77,4 +75,7 @@ Route::get('/category_products/{id}', [ProductController::class, 'showProducts']
 Route::get('/pro/{id}', [ProductController::class, 'product'])->name('showProduct');
 Route::get('/home', [ProductController::class, 'home'])->name('home');
 Route::get('/shop', [ProductController::class, 'shop'])->name('shop');
+Route::post('/search', [ProductController::class, 'search'])->name('search');
+Route::get('/search/{query?}', [ProductController::class, 'searchQuery'])->name('searchQuery');
+Route::post('/contact_us', [ProductController::class, 'contact_us'])->name('contact_us');
 

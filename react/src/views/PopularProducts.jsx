@@ -12,11 +12,11 @@ function PopularProducts() {
 
     const fetchProducts = () => {
         axiosClient.get("/home").then(({ data }) => {
-            console.log(data[1].slice(4, 9));
+            console.log(data.products.slice(4, 9));
 
             //   setLoading(false)
-            setProducts1(data[2].slice(0, 4));
-            setProducts2(data[2].slice(4, 8));
+            setProducts1(data.p_products.slice(0, 4));
+            setProducts2(data.p_products.slice(4, 8));
         });
     };
 
@@ -32,18 +32,15 @@ function PopularProducts() {
                         {p_products.map((p1) => (
                             <div key={p1.id} className="col-sm-3">
                                 <div className="list_2i text-center clearfix">
-                                    <a href="#">
+                                    <a href={`/pro/${p1.id}`}>
                                         <img
-                                            src={
-                                                "../../products_images/" +
-                                                p1.product_img
-                                            }
+                                            src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+p1.product_img}
                                             className="iw"
                                             alt="abc"
                                         />
                                     </a>
                                     <h5>
-                                        <a className="button_1" href="#">
+                                        <a className="button_1" href={`/pro/${p1.id}`}>
                                             SHOP NOW
                                         </a>
                                     </h5>
@@ -56,18 +53,15 @@ function PopularProducts() {
                     {p_products1.map((p2) => (
                             <div key={p2.id} className="col-sm-3">
                                 <div className="list_2i text-center clearfix">
-                                    <a href="#">
+                                    <a href={`/pro/${p2.id}`}>
                                         <img
-                                            src={
-                                                "../../products_images/" +
-                                                p2.product_img
-                                            }
+                                            src= {`${import.meta.env.VITE_API_BASE_URL}/products/images/`+p2.product_img}
                                             className="iw"
                                             alt="abc"
                                         />
                                     </a>
                                     <h5>
-                                        <a className="button_1" href="#">
+                                        <a className="button_1" href={`/pro/${p2.id}`}>
                                             SHOP NOW
                                         </a>
                                     </h5>

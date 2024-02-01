@@ -15,11 +15,17 @@ import {
     removeFromWishlist,
     fetchWishlist,
 } from "../actions/wishlistAction.jsx";
+import {useStateContext} from "../contexts/ContextProvider";
 
 function CategoryProducts() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(0);
     const [loading, setLoading] = useState(false);
+    const { token} = useStateContext();
+
+
+
 
     const [totalPages, setTotalPages] = useState(0);
 
@@ -28,13 +34,16 @@ function CategoryProducts() {
     const [page, setPage] = useState(0);
     const wishlist = useSelector((state) => state.wishlist);
     const { wishlistItems } = wishlist;
-    const dispatch = useDispatch();
     const { id } = useParams();
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        fetchProducts();
-        fetchCategories();
         fetchData();
+        fetchCategories();
+       fetchProducts();
+       if (token) {
         dispatch(fetchWishlist());
+    }
     }, [id]);
 
     // Calculate the start and end indices based on the current page
@@ -47,14 +56,14 @@ function CategoryProducts() {
             setLoading(true);
 
             const res = await axiosClient.get(`/category_products/${catItem}`);
-
-            console.log(res.data[1]);
-
-            console.log(res.data[1]);
-
+            console.log(res.data.a_products);
+            setProducts(res.data.a_products);
             setLoading(false);
-            setProducts(res.data[1]);
-            setTotalPages(Math.ceil(res.data[1].length / ITEMS_PER_PAGE));
+
+            setTotalPages(Math.ceil(res.data.a_products.length / ITEMS_PER_PAGE));
+            setSelectedCategory(parseInt(catItem));
+
+
         } catch (error) {
             setLoading(false);
             // console.error('Error fetching data:', error);
@@ -66,13 +75,13 @@ function CategoryProducts() {
             setLoading(true);
             const result = await axiosClient.get(`/category_products/${id}`);
 
-            console.log(result.data[0]);
-
-            console.log(result.data[0]);
-
+            console.log(result.data.products);
             setLoading(false);
-            setProducts(result.data[0]);
-            setTotalPages(Math.ceil(result.data[0].length / ITEMS_PER_PAGE));
+            setProducts(result.data.products);
+            setTotalPages(Math.ceil(result.data.products.length / ITEMS_PER_PAGE));
+            setSelectedCategory(parseInt(id));
+
+
         } catch (error) {
             setLoading(false);
             // console.error('Error fetching data:', error);
@@ -85,9 +94,9 @@ function CategoryProducts() {
     const fetchCategories = async () => {
         let url = "/home";
         await axiosClient.get(url).then(({ data }) => {
-            console.log(data[1]);
+            console.log(data.categories);
 
-            setCategories(data[1]);
+            setCategories(data.categories);
         });
     };
 
@@ -98,28 +107,11 @@ function CategoryProducts() {
         dispatch(removeFromWishlist(id));
         dispatch(fetchWishlist());
     };
+    // Find the category item with the matching id
+const selectedCat = categories.find(category => category.id === selectedCategory);
 
-    // const handlePageChange = (page) => {
-    //     setCurrentPage(page);
-    //   };
 
-    //   const renderPageNumbers = () => {
-    //     const pageNumbers = [];
 
-    //     for (let i = 1; i <= totalPages; i++) {
-    //       pageNumbers.push(
-    //         <button
-    //           key={i}
-    //           onClick={() => handlePageChange(i)}
-    //           className={currentPage === i ? 'active' : ''}
-    //         >
-    //           {i}
-    //         </button>
-    //       );
-    //     }
-
-    //     return pageNumbers;
-    //   };
 
     return (
         <div>
@@ -138,11 +130,7 @@ function CategoryProducts() {
                                             <div key={c.id}>
                                                 <div className="panel-heading">
                                                     <h4 className="panel-title">
-                                                        {/* <a data-toggle="collapse" data-parent="#accordian" >
-                                            <span className="badge pull-right"><i className="fa fa-plus"></i></span>
-                                            <a href={'/category_products/' + c.id}>{c.name}</a>
-                                        </a> */}
-                                                        {/* <a href={'/category_products/' + c.id}>{c.name}</a> */}
+
                                                         <button
                                                             onClick={() =>
                                                                 fetchData(c.id)
@@ -153,12 +141,7 @@ function CategoryProducts() {
                                                     </h4>
                                                 </div>
 
-                                                {/* <div id={`${c.id}`} className="panel-collapse collapse">
-                                <div className="panel-body">
 
-									</div>
-
-                                </div> */}
                                             </div>
                                         ))}
                                         ;
@@ -166,11 +149,13 @@ function CategoryProducts() {
                                 </div>
                             </div>
                         </div>
+                       <div className="col-sm-9 padding-right">
 
-                        <div className="col-sm-9 padding-right">
+                         {selectedCat &&
                             <h2 className="title text-center">
-                                Features Items
+                            Products Items of {selectedCat.name}
                             </h2>
+                            }
                             {loading && (
                                 <table>
                                     <tbody>
@@ -194,19 +179,14 @@ function CategoryProducts() {
                                                     <div className="single-products">
                                                         <div className="productinfo text-center">
                                                             <img
-                                                                src={
-                                                                    "../../products_images/" +
-                                                                    product.product_img
-                                                                }
+                                                                src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+product.product_img}
                                                                 alt=""
                                                             />
                                                             <h2>
                                                                 {product.price}
                                                             </h2>
                                                             <p>
-                                                                {
-                                                                    product.product_title
-                                                                }
+                                                              <a href={`/pro/${product.id}`}>{product.product_title}</a>
                                                             </p>
                                                             {wishlistItems.filter(
                                                                 (w) =>
@@ -214,9 +194,7 @@ function CategoryProducts() {
                                                                     w.product_id
                                                             ).length !== 0 ? (
                                                                 <Link
-                                                                    style={{
-                                                                        color: "red",
-                                                                    }}
+                                                                    style={{color: '#d93d3d'}}
                                                                     onClick={() =>
                                                                         removeFromWishlistHandler(
                                                                             product.id
@@ -227,10 +205,7 @@ function CategoryProducts() {
                                                                 </Link>
                                                             ) : (
                                                                 <Link
-                                                                    style={{
-                                                                        boxShadow:
-                                                                            " #CC9999",
-                                                                    }}
+                                                                    style={{color:' rgb(233, 144, 144)'}}
                                                                     onClick={() =>
                                                                         AddToWishlistHandler(
                                                                             product.id
@@ -256,9 +231,7 @@ function CategoryProducts() {
                                                                     }
                                                                 </h2>
                                                                 <p>
-                                                                    {
-                                                                        product.product_title
-                                                                    }
+                                                                <a href={`/pro/${product.id}`}>{product.product_title}</a>
                                                                 </p>
                                                                 <a
                                                                     href={`/cart/${product.id}?qty=1`}
@@ -291,26 +264,15 @@ function CategoryProducts() {
                                 nextLinkClassName={"pagination__link"}
                                 disabledClassName={"pagination__link--disabled"}
                                 activeClassName={"pagination__link--active"}
-                                // activeClassName="active"
                             />
                         </div>
 
-                        {/* <div className="pagination">
-            {renderPageNumbers()}
 
-           </div> */}
-                        {/* <div className="pagination">
-            {renderPageNumbers1()}
-
-           </div> */}
                     </div>
                 </div>
             </section>
 
-            {/* Render your data */}
-            {/* {visibleData.map(item => (
-        <div key={item.id}>{item.product_title}</div>
-      ))} */}
+
         </div>
     );
 }

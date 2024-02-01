@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->decimal('product_psp_price')->nullable();
             $table->unsignedInteger('stock')->default(10);
+            $table->tinyInteger('new_arrival')->default('0')->nullable();
             $table->timestamps();
             $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade');
         });

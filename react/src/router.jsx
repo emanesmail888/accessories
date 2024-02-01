@@ -1,47 +1,60 @@
-import {Navigate,createBrowserRouter} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import Login from "./views/Login.jsx";
 import Signup from "./views/Signup.jsx";
-import Users from "./views/Users.jsx";
-import Categories from "./views/categories.jsx";
-import AddCategory from "./views/AddCategory.jsx";
-import AddUser from "./views/AddUser.jsx";
+import Users from "./views/Admin/Users.jsx";
+import Categories from "./views/Admin/categories.jsx";
+import AddCategory from "./views/Admin/AddCategory.jsx";
+import AddUser from "./views/Admin/AddUser.jsx";
 import NotFound from "./views/Notfound.jsx";
 import DefaultLayout from "./components/DefaultLayout.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
-import Dashboard from "./views/Dashboard.jsx";
-import Products from "./views/products.jsx";
-import AddProduct from "./views/AddProduct.jsx";
+import Dashboard from "./views/User/Dashboard.jsx";
+import Products from "./views/Admin/products.jsx";
+import AddProduct from "./views/Admin/AddProduct.jsx";
 import Home from "./views/Home.jsx";
 import ProductPriceList from "./views/ProductPriceList.jsx";
 import CategoryProducts from "./views/CategoryProducts.jsx";
 import Shop from "./views/Shop.jsx";
 import Cart from "./views/Cart.jsx";
-import Shipping from "./views/Shipping.jsx";
-import Payment from "./views/Payment.jsx";
-import PlaceOrder from "./views/PlaceOrder.jsx";
+import Shipping from "./views/User/Shipping.jsx";
+import Payment from "./views/User/Payment.jsx";
+import PlaceOrder from "./views/User/PlaceOrder.jsx";
 import Order from "./views/Order.jsx";
-import UserOrderList from "./views/UserOrderList.jsx";
+import UserOrderList from "./views/User/UserOrderList.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
 import Wishlist from "./views/wishlist.jsx";
-import AddProfile from "./views/AddProfile.jsx";
+import AddProfile from "./views/User/AddProfile.jsx";
 import Profile from "./views/Profile.jsx";
-// import Nav from "./views/Nav.jsx";
-// import UpdateProductForm from "./views/UpdateProductForm.jsx";
-// import UpdateUser from "./views/UpdateUser.jsx";
+import PrivateRoute from "./views/PrivateRoute.jsx";
+import AllOrders from "./views/Admin/allOrders.jsx";
+import SearchResult from "./views/SearchResult.jsx";
+import ContactUs from "./views/ContactUs.jsx";
+import AboutUs from "./views/AboutUs.jsx";
+import Details from "./views/Details.jsx";
 
 
-const router=createBrowserRouter( [
+
+
+
+// const router=createBrowserRouter(
+const router=
+
+
+    [
+
+
     {
 
-
         path: '/',
-        element: <DefaultLayout/>,
+        element:<DefaultLayout/> ,
         children:[
+
 
              {
                 path: '/',
                 element: <Navigate to="/dashboard"/>
               },
+
 
             {
                 path: '/dashboard',
@@ -94,73 +107,68 @@ const router=createBrowserRouter( [
                 element: <AddProfile key="profileUpdate" />
               },
 
-
-        ]
-    },
-    {
-
-
-        path: '/',
-        element: <AdminLayout/>,
-        children:[
-
-
-            {
+              {
                 path: '/admin/users',
-                element: <Users/>
+                element:<PrivateRoute><Users/></PrivateRoute>
+
 
             },
             {
                 path: '/',
-                element: <Users/>
+                element:<PrivateRoute> <Navigate to="/admin/users"/></PrivateRoute>
 
             },
-            {
-                path: '/admin/users',
-                element: <Users/>
 
-            },
             {
                 path: '/admin/users/new',
-                element: <AddUser key="userCreate" />
+                element: <PrivateRoute><AddUser key="userCreate" /></PrivateRoute>
               },
               {
                 path: '/admin/users/:id',
-                element: <AddUser key="userUpdate" />
+                element:<PrivateRoute> <AddUser key="userUpdate" /></PrivateRoute>
               },
               {
                 path: '/admin/categories',
-                element: <Categories/>
+                element: <PrivateRoute><Categories/></PrivateRoute>
 
             },
             {
                 path: '/admin/products',
-                element: <Products/>
+                element:<PrivateRoute> <Products/></PrivateRoute>
 
             },
             {
                 path: '/admin/categories/new',
-                element: <AddCategory key="categoryCreate" />
+                element: <PrivateRoute><AddCategory key="categoryCreate" /></PrivateRoute>
               },
               {
                 path: '/admin/categories/:id',
-                element: <AddCategory key="categoryUpdate" />
+                element: <PrivateRoute><AddCategory key="categoryUpdate" /></PrivateRoute>
               },
             {
                 path: '/admin/products/new',
-                element: <AddProduct key="productCreate" />
+                element: <PrivateRoute><AddProduct key="productCreate" /></PrivateRoute>
               }
               ,
               {
                 path: '/admin/products/:id',
-                element: <AddProduct key="productUpdate" />
+                element: <PrivateRoute><AddProduct key="productUpdate" /></PrivateRoute>
+              }
+              ,
+              {
+                path: '/admin/getAllOrders',
+                element: <PrivateRoute><AllOrders  /></PrivateRoute>
+
               }
 
 
-
-
         ]
-    },
+
+
+
+    }
+    ,
+   
 
     {
         path: '/',
@@ -211,11 +219,33 @@ const router=createBrowserRouter( [
 
 
      },
+     {    path:"/search/:query?",
+      element:<SearchResult/>
 
-   ])
+
+     },
+     {    path:"/contact_us",
+      element:<ContactUs/>
+
+
+     },
+     {path:"/about_us",
+      element:<AboutUs/>
+
+
+     },
+     {path:"/pro/:id",
+      element:<Details/>
+
+
+     },
 
 
 
-export default router;
+   ];
+
+   export default router;
+
+
 
 

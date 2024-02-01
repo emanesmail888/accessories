@@ -13,10 +13,10 @@ export default function HomeCategories() {
     //   setLoading(true)
       axiosClient.get('/home')
         .then(({ data }) => {
-            console.log(data[1]);
+            console.log(data.categories);
 
         //   setLoading(false)
-          setCategories(data[1])
+          setCategories(data.categories)
         })
         .catch(() => {
         //   setLoading(false)
@@ -47,7 +47,9 @@ export default function HomeCategories() {
 
                     <div key={c.id} className="col-sm-3 center_3_top_2_left clearfix">
                     <div className="center_3_top_2_left_inner clearfix">
-                    <p><a href={'/category_products/' + c.id}><img src={'../../images/' + c.image} width="100%" style={{height:"200px"}}/></a></p>
+                    <p><a href={'/category_products/' + c.id}>
+                     <img src= {`${import.meta.env.VITE_API_BASE_URL}/categories/images/`+c.image}
+                      width="100%" style={{height:"200px"}}/></a></p>
                     </div>
                     </div>
 

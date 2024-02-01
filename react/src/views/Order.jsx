@@ -10,7 +10,7 @@ import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 
 
 /* PAYPAL BUTTONS */
-import { PayPalButton } from "react-paypal-button-v2";
+import {PayPalButton} from "react-paypal-button-v2";
 
 /* COMPONENTS */
 import Message from "./Message";
@@ -26,6 +26,7 @@ import {
   deliverOrder,
 } from "../actions/orderAction";
 import {useStateContext} from "../contexts/ContextProvider";
+import axiosClient from "../axios-client.js";
 
 
 /* ACTION TYPES */
@@ -42,7 +43,9 @@ function Order() {
   const history = useNavigate();
 
   const [sdkReady, setSdkReady] = useState(false);
-  const { token} = useStateContext();
+  const { token,user,setUser} = useStateContext();
+  const [load, setLoading] = useState(false);
+
 
 
   /* PULLING A PART OF STATE FROM THE ACTUAL STATE IN THE REDUX STORE */
@@ -102,14 +105,21 @@ function Order() {
       dispatch({ type: ORDER_DELIVER_RESET });
 
       dispatch(getOrderDetails(id));
-    } else if (!order.order.isPaid) {
+    }
+
+
+    else if (!order.order.isPaid) {
       // ACTIVATING PAYPAL SCRIPTS
       if (!window.paypal) {
-        addPayPalScript();
-      } else {
+       addPayPalScript();
+
+      }
+       else {
         setSdkReady(true);
       }
     }
+    getUser();
+
   }, [ id, successPay,order, successDeliver, history, token]);
 
   /* HANDLERS */
@@ -118,8 +128,31 @@ function Order() {
   };
 
   const deliverHandler = () => {
-    dispatch(deliverOrder(order));
+    dispatch(deliverOrder(id));
   };
+
+
+function convertCurrency(egpAmount) {
+  const exchangeRate = 0.032; // Fixed exchange rate: 1 EGP = 0.063 USD
+  const usdAmount = egpAmount * exchangeRate;
+  return usdAmount.toFixed(2); // Rounded to 2 decimal places
+}
+
+  const getUser = () => {
+    setLoading(true)
+    axiosClient.get('/user')
+     .then(({data}) => {
+
+        setLoading(false)
+        setUser(data)
+
+
+      })
+      .catch(() => {
+        setLoading(false)
+      })
+  }
+
 
   return loading ? (
     <Loader />
@@ -189,25 +222,26 @@ function Order() {
                 <ListGroup variant="flush">
                   {order.orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
-                    {item.product_id}
                       <Row>
-                        <Col md={1}>
+                        <Col md={4}>
                           <Image
-                            src={item.image}
-                            alt={item.name}
+                            src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+item.product_img}
+                            alt={item.product_title}
+                            style={{width:'70px',height:'70px'}}
                             fluid
                             rounded
                           />
                         </Col>
 
-                        <Col>
-                          <Link to={`/admin/product/${item.product}/`}>
-                            {item.name}
+                        <Col md={2}>
+                          <Link to={`/pro/${item.id}`}>
+                          
+                            {item.product_title}
                           </Link>
                         </Col>
 
                         <Col md={4}>
-                          {item.quantity} X Eg P{item.price} = Eg P
+                          {item.quantity} X EgP{item.price} = EgP
                           {(item.quantity * item.price).toFixed(2)}
                         </Col>
                       </Row>
@@ -230,7 +264,7 @@ function Order() {
                 <Row>
                   <Col>Items:</Col>
 
-                  <Col>Eg P{order.order.subtotal}</Col>
+                  <Col>EgP{order.order.subtotal}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -238,7 +272,7 @@ function Order() {
                 <Row>
                   <Col>Shipping: </Col>
 
-                  <Col> Eg P{order.order.shippingPrice}</Col>
+                  <Col> EgP{order.order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -246,7 +280,7 @@ function Order() {
                 <Row>
                   <Col>Tax:</Col>
 
-                  <Col>Eg P{order.order.tax}</Col>
+                  <Col>EgP{order.order.tax}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -254,9 +288,10 @@ function Order() {
                 <Row>
                   <Col>Total:</Col>
 
-                  <Col>Eg P{order.order.total}</Col>
+                  <Col>EgP{order.order.total}</Col>
                 </Row>
               </ListGroup.Item>
+
 
               {!order.order.isPaid && (
                 <ListGroup.Item>
@@ -265,8 +300,9 @@ function Order() {
                     <Loader />
                   ) : (
                     <PayPalButton
-                      amount={order.order.total}
+                      amount={convertCurrency(order.order.total)}
                       onSuccess={successPaymentHandler}
+
                     />
 
                   )}
@@ -276,7 +312,7 @@ function Order() {
 
             {loadingDeliver && <Loader />}
 
-            {/* {user && user.is_staff && order.isPaid && !order.isDeliver && ( */}
+            {!load && user && user.utype==='ADM' && order.order.isPaid && !order.order.isDeliver && (
               <ListGroup.Item>
                 <Button
                   type="button"
@@ -286,7 +322,7 @@ function Order() {
                   Mark As Delivered
                 </Button>
               </ListGroup.Item>
-            {/* )} */}
+            )}
           </Card>
         </Col>
       </Row>

@@ -10,23 +10,49 @@ import  '../styles/js/jquery';
 import  '../styles/js/bootstrap.min.js';
 import {useStateContext} from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
-import {useEffect} from "react";
+import {useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from './Message';
+// import useNavigation from './useNavigation';
+
+
+
 import { removeFromCart } from "../actions/cartAction";
 
 
+import { fetchWishlist } from "../actions/wishlistAction.jsx";
+import { useNavigate } from 'react-router-dom';
+import SearchResult from './SearchResult.jsx';
+
+// import { useHistory } from 'react-router-dom';
 
 
-function Nav() {
 
+
+const Nav = () => {
     const {user, token, setUser, setToken} = useStateContext();
+    const [categories, setCategories] = useState([]);
+    const wishlist = useSelector((state) => state.wishlist);
+    const { wishlistItems } = wishlist;
+    const itemCount = wishlistItems.length;
+    const [search, setSearch] = useState('')
+    const [results, setResults] = useState([]);
+
+    const navigate = useNavigate();
+
+// const history = useHistory();
+
+
+
+
+
     const dispatch = useDispatch();
+
+
 
      /* PULLING A PART OF STATE FROM THE ACTUAL STATE IN THE REDUX STORE */
     const cart = useSelector((state) => state.cart);
     const { cartItems } = cart;
-    console.log(cartItems)
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id));
       };
@@ -57,22 +83,50 @@ cart.totalPrice = (
           setToken(null)
         })
     }
+    const fetchCategories = () => {
+        let url = '/home';
 
+
+        axiosClient.get(url)
+        .then(({ data }) => {
+            console.log(data.categories);
+
+            setCategories(data.categories)
+        })
+
+    }
     useEffect(() => {
 
-  if (token) {
+    if (token) {
 
       axiosClient.get('/user')
         .then(({data}) => {
            setUser(data)
         })
+        dispatch(fetchWishlist());
+
     }
+    fetchCategories();
+
     }, [])
+
+
+
+
+const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate(`/search/${search}`);
+
+
+  };
+
+//   const handleChange = (event) => {
+//     setSearch(event.target.value);
+//   };
     return (
 
 
         <div>
-
 
             <section id="header">
                 <div className="container">
@@ -86,17 +140,14 @@ cart.totalPrice = (
                             <div className="col-sm-10">
                                 <div className="header_1r clearfix">
                                     <div className="header_1ri border_none clearfix">
-                                        <div className="input-group">
-                                            <span className="input-group-btn">
-                                                <button className="btn btn-primary" type="button">
-                                                    <i className="fa fa-search"></i></button>
-                                            </span>
-                                        </div>
+                                    <form onSubmit={handleSubmit}>
+                                             <input value={search} onChange={(e) => setSearch(e.target.value)} name="search"  placeholder="Search..." style={{width:'250px'}}/>
+                                             <button  className=" btn btn-danger " style={{marginLeft:'5px',padding:'11px 11px'}}> <i className="fa fa-search"></i></button>
+                                                {/* <input type="text" value={search} onChange={handleChange} /> */}
+                                             </form>
+
                                     </div>
-                                    {/* <div className="header_1ri clearfix">
-                                        <span className="span_1"><a className="col_1" href="#"><i className="fa fa-map-marker"></i></a></span>
-                                        <h5 className="mgt"><a href="#">Store  Locator</a></h5>
-                                    </div> */}
+
                                     {!token?
                                         <div className="header_1ri clearfix">
                                         <span className="span_1"><a className="col_1" href="/login"><i className="fa fa-user"></i></a></span>
@@ -108,7 +159,7 @@ cart.totalPrice = (
 
                                         <div className="header_1ri clearfix">
                                         <span className="span_1"><a className="col_1" href="#"><i className="fa fa-user"></i></a></span>
-                                        <h5 ><a href="#">{user.name} </a>
+                                        <h5 ><a href="#">({user.utype}){user.name}</a>
                                         <a onClick={onLogout} className=" btn" href="#">Logout</a>                                           </h5>
                                        </div>
 
@@ -117,7 +168,8 @@ cart.totalPrice = (
 
                                     <div className="header_1ri border_none clearfix">
                                         <span className="span_1"><a className="col_1" href="#"><i className="fa fa-heart-o"></i></a></span>
-                                        <h5><a href="#">My  Wishlist (0)</a></h5>
+                                        <h5><a href="/wishlist">My  Wishlist  {token?(itemCount):(0) } items
+                                        </a></h5>
                                     </div>
                                 </div>
                             </div>
@@ -144,32 +196,33 @@ cart.totalPrice = (
 
                                 <li><a className="m_tag active_tab" href="/home">Home</a></li>
                                 <li><a className="m_tag " href="/shop">Shop</a></li>
+
+
                                 <li className="dropdown">
-                                    <a className="m_tag" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Product<span className="caret"></span></a>
-                                    <ul className="dropdown-menu drop_3" role="menu">
-                                        <li><a href="product.html">Product</a></li>
-                                        <li><a className="border_none" href="detail.html">Product Detail</a></li>
+                                    <a className="m_tag" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Categories<span className="caret"></span></a>
+
+                                    <ul  className="dropdown-menu drop_3" role="menu">
+                                    {categories.map(c => (
+
+                                        <li key={c.id} ><a href={'/category_products/' + c.id}>{c.name}</a></li>
+                                    ))};
                                     </ul>
-                                </li>
-                                <li className="dropdown">
-                                    <a className="m_tag" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Blog<span className="caret"></span></a>
-                                    <ul className="dropdown-menu drop_3" role="menu">
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a className="border_none" href="blog_detail.html">Blog Detail</a></li>
-                                    </ul>
+
                                 </li>
 
-                                <li><a className="m_tag" href="about.html">About Us</a></li>
-                                <li><a className="m_tag" href="contact.html">Contact</a></li>
+
+
+                                <li><a className="m_tag" href="/about_us">About Us</a></li>
+                                <li><a className="m_tag" href="/contact_us">Contact</a></li>
                                 <li className="dropdown">
                                     <a className="m_tag" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Pages<span className="caret"></span></a>
                                     <ul className="dropdown-menu drop_3" role="menu">
-                                        <li><a href="login.html">My Account</a></li>
+                                        <li><a href="/profile">My Account</a></li>
                                         <li><a href="/cart">Shopping Cart</a></li>
-                                        <li><a className="border_none" href="checkout.html">Checkout</a></li>
+                                        <li><a className="border_none" href="/shipping">Checkout</a></li>
                                     </ul>
                                 </li>
-                                <li className="dropdown dropdown-large">
+                                {/* <li className="dropdown dropdown-large">
                                     <a href="#" className="dropdown-toggle m_tag" data-toggle="dropdown">Dropdown<b className="caret"></b></a>
 
                                     <ul className="dropdown-menu dropdown-menu-large row">
@@ -245,7 +298,7 @@ cart.totalPrice = (
                                         </li>
                                     </ul>
 
-                                </li>
+                                </li> */}
                                 <li className="dropdown drop_cart">
                                     <a className="m_tag" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><i className="glyphicon glyphicon-shopping-cart"></i></a>
                                     <ul className="dropdown-menu drop_1" role="menu">

@@ -2,6 +2,8 @@ import {Link, Navigate, Outlet} from "react-router-dom";
 import {useStateContext} from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
 import {Fragment} from "react";
+import {useEffect} from "react";
+
 
 
 function AdminLayout() {
@@ -13,26 +15,25 @@ function AdminLayout() {
   }
 
 
- if ( user && user.utype === 'ADM') {
-        axiosClient.get('/user')
-        .then(({data}) => {
-           setUser(data)
-        })
+  useEffect(() => {
+    axiosClient.get('/user')
+      .then(({data}) => {
+         setUser(data)
+
+            })
 
 
-      }
-      else{
-        return <Navigate to="/userOrders/"/>
 
 
-      }
-
+  }, [])
 
 
   return (
     <div>
 
     <div id="defaultLayout">
+
+
      <aside>
      { user && user.utype === 'ADM' && (
          <Fragment>
@@ -45,7 +46,6 @@ function AdminLayout() {
     )}
       </aside>
       <div className="content">
-      <h1>AdminLayout{user.utype}</h1>
 
         <main>
           <Outlet/>

@@ -552,6 +552,7 @@ a.socialIcon:hover, .socialHoverClass {
     padding-left: 6px;
     padding-right: 6px;
     font-size: 16px;
+    color:#BD3518;
     border-right: 1px solid #f4573729;
 
 }
@@ -603,12 +604,12 @@ color: #333;
 /*********************common_end****************/
 
  @media screen and (max-width : 767px){
-.space_left{
+/* .space_left{
 padding-left:15px;
 }
 .space_right{
 padding-right:15px;
-}
+} */
 .space_all{
 padding-left:15px;
 padding-right:15px;
@@ -652,9 +653,9 @@ position:static;
 border:none;
  }
 
-#header{
+/* #header{
 display:none;
- }
+ } */
 #top{
 display:none;
  }

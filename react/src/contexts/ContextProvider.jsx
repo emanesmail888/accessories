@@ -31,7 +31,7 @@ export const ContextProvider = ({children}) => {
 
     setTimeout(() => {
       _setNotification('')
-    }, 5000)
+    }, 1000)
   }
 
   return (
