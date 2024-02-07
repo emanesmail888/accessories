@@ -45,6 +45,7 @@ export default function Login() {
         <input ref={passwordRef} type="password" placeholder="Password"/>
         <button className="btn btn-block">Login</button>
         <p className="message">Not registered? <Link to="/signup">Create an account</Link></p>
+        <p className="message">Forgot Password? <Link to="/forgot-password">Forgot Password</Link></p>
       </form>
     </div>
   </div>

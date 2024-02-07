@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import {createContext, useContext, useState} from "react";
+import axiosClient from "../axios-client.js";
 
 const StateContext = createContext({
   currentUser: null,
@@ -16,6 +17,7 @@ export const ContextProvider = ({children}) => {
   const [user, setUser] = useState({});
   const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
   const [notification, _setNotification] = useState('');
+  const csrf= ()=> axiosClient.get("/sanctum/csrf-cookie");
 
   const setToken = (token) => {
     _setToken(token)
@@ -41,7 +43,7 @@ export const ContextProvider = ({children}) => {
       token,
       setToken,
       notification,
-      setNotification
+      setNotification,csrf,
     }}>
       {children}
     </StateContext.Provider>

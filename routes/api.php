@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\ProductsCntroller;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CheckoutController;
+use App\Http\Controllers\Api\NewPasswordController;
+use App\Http\Controllers\Api\PasswordResetLinkController;
 
 
 /*
@@ -70,6 +72,9 @@ Route::prefix('/admin')->middleware(['auth:sanctum','AuthAdmin'])->group(functio
 
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('reset-password', [AuthController::class, 'reset']);
 Route::get('/products_price/{min?}/{max?}',[ProductController::class, 'priceList']);
 Route::get('/category_products/{id}', [ProductController::class, 'showProducts'])->name('showProducts');
 Route::get('/pro/{id}', [ProductController::class, 'product'])->name('showProduct');
@@ -78,4 +83,3 @@ Route::get('/shop', [ProductController::class, 'shop'])->name('shop');
 Route::post('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/search/{query?}', [ProductController::class, 'searchQuery'])->name('searchQuery');
 Route::post('/contact_us', [ProductController::class, 'contact_us'])->name('contact_us');
-

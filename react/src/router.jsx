@@ -31,6 +31,8 @@ import SearchResult from "./views/SearchResult.jsx";
 import ContactUs from "./views/ContactUs.jsx";
 import AboutUs from "./views/AboutUs.jsx";
 import Details from "./views/Details.jsx";
+import ResetPassword from "./views/ResetPassword.jsx";
+import ForgotPassword from "./views/ForgotPassword.jsx";
 
 
 
@@ -168,7 +170,7 @@ const router=
 
     }
     ,
-   
+
 
     {
         path: '/',
@@ -183,7 +185,17 @@ const router=
             {
                 path: '/signup',
                 element: <Signup/>
+            },
+            {
+                path: '/forgot-password',
+                element: <ForgotPassword/>
             }
+            ,
+            {
+                path: '/reset-password/:token?',
+                element: <ResetPassword/>
+            }
+
 
         ]
     },
