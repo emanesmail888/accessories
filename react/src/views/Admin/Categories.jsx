@@ -16,7 +16,7 @@ export default function Categories() {
       if (!window.confirm("Are you sure you want to delete this category?")) {
         return
       }
-      axiosClient.delete(`/admin/categories/${category.id}`)
+      axiosClient.delete(`/v1/admin/categories/${category.id}`)
         .then(() => {
           setNotification('Category was successfully deleted')
           getCategories()
@@ -25,7 +25,7 @@ export default function Categories() {
 
     const getCategories = () => {
       setLoading(true)
-      axiosClient.get('/admin/categories')
+      axiosClient.get('/v1/admin/categories')
         .then(({ data }) => {
             console.log(data);
 

@@ -18,11 +18,11 @@ const Profile = () => {
 
     useEffect(() => {
         setLoading(true)
-        axiosClient.get('/user')
+        axiosClient.get('/v1/user')
         .then(({data}) => {
            setUser(data)
         })
-        axiosClient.get('/profile')
+        axiosClient.get('/v1/profile')
         .then(({data}) => {
             if (!data.id) {
                 console.log('Data is null');

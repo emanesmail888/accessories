@@ -24,7 +24,7 @@ function ResetPassword() {
         token:token
 
       }
-      axiosClient.post('/reset-password', payload)
+      axiosClient.post('/v1/reset-password', payload)
         .then(({data}) => {
           setUser(data.user)
           setToken(data.token);

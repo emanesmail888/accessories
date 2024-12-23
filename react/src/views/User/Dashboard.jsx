@@ -7,7 +7,7 @@ import {useEffect} from "react";
 function Dashboard() {
     const { user, setUser} = useStateContext();
 
-    axiosClient.get('/user')
+    axiosClient.get('/v1/user')
     .then(({data}) => {
        setUser(data)
 

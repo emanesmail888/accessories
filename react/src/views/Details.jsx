@@ -50,7 +50,7 @@ function Details() {
 
       };
       const removeReview = async(id) => {
-        await axiosClient.get(`/review/delete/${id}`)
+        await axiosClient.get(`/v1/review/delete/${id}`)
         .then(() => {
             setNotification('Review was successfully Removed');
             window.location.reload();
@@ -66,7 +66,7 @@ function Details() {
 
 
     const fetchUser = () => {
-    axiosClient.get('/user')
+    axiosClient.get('/v1/user')
     .then(({data}) => {
        setUser(data)
 
@@ -87,7 +87,7 @@ function Details() {
 
         fetchCategories();
         setLoading(true)
-        axiosClient.get(`/pro/${id}`)
+        axiosClient.get(`/v1/pro/${id}`)
             .then(({data}) => {
             // console.log(data.product)
             // console.log(data.reviews)
@@ -117,7 +117,7 @@ function Details() {
     }
 
     const fetchCategories = () => {
-        let url = '/home';
+        let url = '/v1/home';
         axiosClient.get(url)
         .then(({ data }) => {
             console.log(data.categories);
@@ -160,7 +160,7 @@ const handleFormSubmit = async (e) => {
     const body = JSON.stringify({ product_id, rating,review,user_id });
 
     try {
-        const res = await axiosClient.post(`/add_review`, body, config).then(() => {
+        const res = await axiosClient.post(`/v1/add_review`, body, config).then(() => {
             setNotification('Review was successfully Added');
             window.location.reload();
 
@@ -285,7 +285,7 @@ const incrementQty = () => {
                                             BEST PRODUCTS
                                         </h5>
                                         {best_products.map((b_product) => (
-                                        <div className="blog_1li1i clearfix" key={b_product}>
+                                        <div className="blog_1li1i clearfix" key={b_product.id}>
                                         <div className="col-sm-4 space_left">
                                                 <img
                                                     src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+b_product.product_img}
@@ -295,7 +295,7 @@ const incrementQty = () => {
                                             </div>
                                             <div className="col-sm-8 space_all">
                                                 <h5 className="mgt">
-                                                    <a href="detail.html">
+                                                    <a href={`/pro/${b_product.id}`}>
                                                       {b_product.product_title}
                                                     </a>
                                                 </h5>

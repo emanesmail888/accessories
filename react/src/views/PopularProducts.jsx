@@ -11,7 +11,7 @@ function PopularProducts() {
     }, []);
 
     const fetchProducts = () => {
-        axiosClient.get("/home").then(({ data }) => {
+        axiosClient.get("/v1/home").then(({ data }) => {
             console.log(data.products.slice(4, 9));
 
             //   setLoading(false)

@@ -36,7 +36,7 @@ function AddProduct() {
         useEffect(() => {
         getCategories()
         setLoading(true)
-        axiosClient.get(`/admin/products/${id}`)
+        axiosClient.get(`/v1/admin/products/${id}`)
             .then(({data}) => {
             setLoading(false)
             setProduct_title(data.data.product_title)
@@ -55,7 +55,7 @@ function AddProduct() {
 
 
   const getCategories = () => {
-                    axiosClient.get('/admin/categories')
+                    axiosClient.get('/v1/admin/categories')
                       .then(({ data }) => {
                           console.log(data);
 
@@ -147,7 +147,7 @@ function AddProduct() {
                });
     }
 
-      const response = await axiosClient.post('/admin/products', formData,
+      const response = await axiosClient.post('/v1/admin/products', formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data',

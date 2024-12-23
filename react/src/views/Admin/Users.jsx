@@ -16,7 +16,7 @@ export default function Users() {
       if (!window.confirm("Are you sure you want to delete this user?")) {
         return
       }
-      axiosClient.delete(`/admin/users/${user.id}`)
+      axiosClient.delete(`/v1/admin/users/${user.id}`)
         .then(() => {
           setNotification('User was successfully deleted')
           getUsers()
@@ -25,7 +25,7 @@ export default function Users() {
 
     const getUsers = () => {
       setLoading(true)
-      axiosClient.get('/admin/users')
+      axiosClient.get('/v1/admin/users')
         .then(({ data }) => {
           setLoading(false)
           setUsers(data.data)

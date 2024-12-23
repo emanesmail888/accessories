@@ -14,7 +14,7 @@ import {
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   // FETCHING PRODUCT DATA
 
-  const { data } = await axiosClient.get(`/pro/${id}/ `);
+  const { data } = await axiosClient.get(`/v1/pro/${id}/ `);
   console.log(data.product);
 
 

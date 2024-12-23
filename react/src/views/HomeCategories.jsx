@@ -11,7 +11,7 @@ export default function HomeCategories() {
 
     const getCategories = () => {
     //   setLoading(true)
-      axiosClient.get('/home')
+      axiosClient.get('/v1/home')
         .then(({ data }) => {
             console.log(data.categories);
 

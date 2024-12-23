@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
 use App\Models\User;
-use http\Env\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -17,11 +16,43 @@ use Illuminate\Validation\Rules\Password as RulesPassword;
 use Illuminate\Validation\ValidationException;
 use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+
+
 
 
 class AuthController extends Controller
 {
-    public function signup(SignupRequest $request)
+
+
+     /**
+     * @OA\Post(
+     *      path="/api/v1/signup",
+     *      operationId="signup",
+     *      tags={"Authentication"},
+     *      summary="SignUp To Site",
+     *      description="SignUp To Site",
+     *      @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *            required={"name", "email","password","password_confirmation"},
+     *            @OA\Property(property="name", type="string", format="string", example="Test category Title"),
+     *            @OA\Property(property="email", type="string", format="string", example="info@gmail.com"),
+     *            @OA\Property(property="password", type="string", format="string", example="Aa133456@"),
+     *            @OA\Property(property="password_confirmation", type="string", format="string", example="Aa133456@"),
+     *         ),
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=""),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
+    public function signup(SignupRequest $request): Response
     {
         $data = $request->validated();
         /** @var \App\Models\User $user */
@@ -35,7 +66,35 @@ class AuthController extends Controller
         return response(compact('user', 'token'));
     }
 
-    public function login(LoginRequest $request)
+
+
+
+     /**
+     * @OA\Post(
+     *      path="/login",
+     *      operationId="login",
+     *      tags={"Authentication"},
+     *      summary="Login To Site",
+     *      description="Login To Site",
+     *      @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *            required={"email","password"},
+     *            @OA\Property(property="email", type="string", format="string", example="info@gmail.com"),
+     *            @OA\Property(property="password", type="string", format="string", example="Aa133456@"),
+     *         ),
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=""),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
+
+    public function login(LoginRequest $request): Response
     {
         $credentials = $request->validated();
         if (!Auth::attempt($credentials)) {
@@ -50,46 +109,74 @@ class AuthController extends Controller
         return response(compact('user', 'token'));
     }
 
-    public function logout(Request $request)
+
+
+    /**
+     * @OA\Post(
+     *     path="/logout",
+     *     summary="Logout a user",
+     *     tags={"Authentication"},
+     *     @OA\Response(
+     *         response="204",
+     *         description="User Logout successfully"),
+     *         security={{"bearerAuth":{}}}
+
+    * )
+    */
+
+    public function logout(Request $request): Response
     {
         /** @var \App\Models\User $user */
         $user = $request->user();
-        // $request->user()->tokens()->delete();
-        // Auth::user()->token()->delete();
-
-
         $user->currentAccessToken()->delete();
-        return response('', 204);
+        return response([
+            'message'=> 'User Logout successfully'
+        ], 204);
     }
 
 
+    /**
+     * @OA\Get(
+     *     path="/user",
+     *     tags={"Authentication"},
+     *     summary="Get logged-in user details",
+     *     @OA\Response(response="200", description="Success"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
+    public function getUserDetails(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        return response()->json(['user' => $user], 200);
+    }
 
-public function forgotPassword(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-    ]);
 
-    $response = Password::sendResetLink(
-        $request->only('email'),
-        function ($user, $token) {
-            $user->sendPasswordResetNotification($token);
+    public function forgotPassword(Request $request): array
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $response = Password::sendResetLink(
+            $request->only('email'),
+            function ($user, $token) {
+                $user->sendPasswordResetNotification($token);
+            }
+        );
+
+        if ($response == Password::RESET_LINK_SENT) {
+            return [
+                'status' => __('A password reset link has been sent to your email.'),
+            ];
         }
-    );
 
-    if ($response == Password::RESET_LINK_SENT) {
-        return [
-            'status' => __('A password reset link has been sent to your email.'),
-        ];
+        throw ValidationException::withMessages([
+            'email' => [__($response)],
+        ]);
     }
 
-    throw ValidationException::withMessages([
-        'email' => [__($response)],
-    ]);
-}
 
-
-    public function reset(Request $request)
+    public function reset(Request $request): JsonResponse
     {
         $request->validate([
             'token' => 'required',

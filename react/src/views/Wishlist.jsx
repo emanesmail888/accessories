@@ -51,7 +51,7 @@ const Wishlist = () => {
                                         alt=""
                                     />
                                     <h2>{item.price}</h2>
-                                    <p><a href={`/pro/${item.id}`}>{item.product_title}</a></p>
+                                    <p><a href={`/v1/pro/${item.id}`}>{item.product_title}</a></p>
                                     {wishlistItems.filter(
                                         (w) => item.id === w.product_id
                                     ).length !== 0 ? (
@@ -86,7 +86,7 @@ const Wishlist = () => {
                                 <div className="product-overlay">
                                     <div className="overlay-content">
                                         <h2>{item.price}</h2>
-                                        <p><a href={`/pro/${item.id}`}>{item.product_title}</a></p>
+                                        <p><a href={`/v1/pro/${item.id}`}>{item.product_title}</a></p>
                                         {/* <Link style={{color: 'red'}} onClick={() => AddToWishlistHandler(product.id)}>wishlist</Link> */}
                                         {/* <button onClick={() => handleRemoveFromWishlist(item.product_id)}>
                                                             Remove

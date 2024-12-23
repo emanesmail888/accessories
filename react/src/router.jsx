@@ -22,7 +22,7 @@ import PlaceOrder from "./views/User/PlaceOrder.jsx";
 import Order from "./views/Order.jsx";
 import UserOrderList from "./views/User/UserOrderList.jsx";
 import AdminLayout from "./components/AdminLayout.jsx";
-import Wishlist from "./views/wishlist.jsx";
+import Wishlist from "./views/Wishlist.jsx";
 import AddProfile from "./views/User/AddProfile.jsx";
 import Profile from "./views/Profile.jsx";
 import PrivateRoute from "./views/PrivateRoute.jsx";

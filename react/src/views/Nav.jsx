@@ -77,14 +77,14 @@ cart.totalPrice = (
     const onLogout = ev => {
       ev.preventDefault()
 
-      axiosClient.post('/logout')
+      axiosClient.post('/v1/logout')
         .then(() => {
           setUser({})
           setToken(null)
         })
     }
     const fetchCategories = () => {
-        let url = '/home';
+        let url = '/v1/home';
 
 
         axiosClient.get(url)
@@ -99,7 +99,7 @@ cart.totalPrice = (
 
     if (token) {
 
-      axiosClient.get('/user')
+      axiosClient.get('/v1/user')
         .then(({data}) => {
            setUser(data)
         })
@@ -115,7 +115,7 @@ cart.totalPrice = (
 
 const handleSubmit = (event) => {
     event.preventDefault();
-    navigate(`/search/${search}`);
+    navigate(`/v1/search/${search}`);
 
 
   };
@@ -222,83 +222,7 @@ const handleSubmit = (event) => {
                                         <li><a className="border_none" href="/shipping">Checkout</a></li>
                                     </ul>
                                 </li>
-                                {/* <li className="dropdown dropdown-large">
-                                    <a href="#" className="dropdown-toggle m_tag" data-toggle="dropdown">Dropdown<b className="caret"></b></a>
-
-                                    <ul className="dropdown-menu dropdown-menu-large row">
-                                        <li className="col-sm-2">
-                                            <ul>
-                                                <li className="dropdown-header">BRACELETS</li>
-                                                <li><a href="#">Available</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                                <li><a href="#">Aligninment</a></li>
-                                                <li><a href="#">Headers</a></li>
-                                            </ul>
-                                            <ul>
-                                                <li className="dropdown-header">BY METAL</li>
-                                                <li><a href="#">Available</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                            </ul>
-                                        </li>
-                                        <li className="col-sm-2">
-                                            <ul>
-                                                <li className="dropdown-header">EARRINGS</li>
-                                                <li><a href="#">Available</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                                <li><a href="#">Aligninment</a></li>
-                                                <li><a href="#">Headers</a></li>
-                                            </ul>
-                                            <ul>
-                                                <li className="dropdown-header">BY METAL</li>
-                                                <li><a href="#"> Glyphs</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                            </ul>
-                                        </li>
-                                        <li className="col-sm-2">
-                                            <ul>
-                                                <li className="dropdown-header">PENDANTS</li>
-                                                <li><a href="#">Available</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                                <li><a href="#">Aligninment</a></li>
-                                                <li><a href="#">Headers</a></li>
-                                            </ul>
-                                            <ul>
-                                                <li className="dropdown-header">BY METAL</li>
-                                                <li><a href="#"> Glyphs</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                            </ul>
-                                        </li>
-                                        <li className="col-sm-2">
-                                            <ul>
-                                                <li className="dropdown-header">PENDANTS</li>
-                                                <li><a href="#">Available</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                                <li><a href="#">Aligninment</a></li>
-                                                <li><a href="#">Headers</a></li>
-                                            </ul>
-                                            <ul>
-                                                <li className="dropdown-header">BY METAL</li>
-                                                <li><a href="#"> Glyphs</a></li>
-                                                <li><a href="#">Examples</a></li>
-                                                <li><a href="#">Jewelry</a></li>
-                                            </ul>
-                                        </li>
-                                        <li className="col-sm-4">
-                                            <ul>
-                                            </ul>
-                                            <ul>
-                                            </ul>
-                                        </li>
-                                    </ul>
-
-                                </li> */}
+                                
                                 <li className="dropdown drop_cart">
                                     <a className="m_tag" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><i className="glyphicon glyphicon-shopping-cart"></i></a>
                                     <ul className="dropdown-menu drop_1" role="menu">
@@ -321,7 +245,7 @@ const handleSubmit = (event) => {
                                                 ) : (
                                                 <div>
                                                 {cartItems.map((item) => (
-                                                <>
+                                                <div key={item.product} className="drop_1i1 clearfix"> {/* Use a unique key here */}
                                                 <div className="drop_1i1 clearfix">
 
                                                 <div className="col-sm-6">
@@ -340,7 +264,7 @@ const handleSubmit = (event) => {
 
 
 
-                                            </>
+                                            </div>
 
                                             ))}
 

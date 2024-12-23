@@ -37,7 +37,7 @@ export const createOrder = (order) => async (dispatch) => {
 
 
     /* MAKING API CALL TO SAVE THE ORDER DETAILS */
-    const { data } = await axiosClient.post(`/addOrder`, order);
+    const { data } = await axiosClient.post(`/v1/addOrder`, order);
 
 
     /* IF PUT REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
@@ -79,7 +79,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
 
 
     /* MAKING API CALL TO GET THE ORDER DETAILS */
-    const {data}  = await axiosClient.get(`/getOrders/${id}/`);
+    const {data}  = await axiosClient.get(`/v1/getOrders/${id}/`);
     console.log(data);
 
 
@@ -110,7 +110,7 @@ export const payOrder = (id, paymentResult) => async (dispatch) => {
 
 
     /* MAKING API CALL TO SAVE THE PAYMENT DETAILS */
-    const { data } = await axiosClient.post(`/getOrders/${id}/pay`,paymentResult);
+    const { data } = await axiosClient.post(`/v1/getOrders/${id}/pay`,paymentResult);
 
     /* IF PUT REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({
@@ -137,7 +137,7 @@ export const listMyOrders = () => async (dispatch) => {
 
 
     /* MAKING API CALL TO GET THE DETAILS OF THE ORDERS MADE BY THE USER */
-    const { data } = await axiosClient.get(`/userOrders/`);
+    const { data } = await axiosClient.get(`/v1/userOrders/`);
     console.log(data)
 
     /* IF GET REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
@@ -165,7 +165,7 @@ export const listOrders = () => async (dispatch) => {
 
 
     /* MAKING API CALL TO GET THE DETAILS OF ALL THE ORDERS MADE BY THE ALL THE USERS */
-    const { data } = await axiosClient.get(`/admin/getAllOrders`);
+    const { data } = await axiosClient.get(`/v1/admin/getAllOrders`);
 
     /* IF GET REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({
@@ -192,7 +192,7 @@ export const deliverOrder = (id) => async (dispatch) => {
 
     /* MAKING API CALL TO UPDATE ORDER DELIVERY STATUS */
 
-    const { data } = await axiosClient.post(`/admin/getOrders/${id}/deliver`);
+    const { data } = await axiosClient.post(`/v1/admin/getOrders/${id}/deliver`);
 
     /* IF PUT REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({

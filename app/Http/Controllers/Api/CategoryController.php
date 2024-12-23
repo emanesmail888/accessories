@@ -8,6 +8,8 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 
 class CategoryController extends Controller
@@ -71,7 +73,7 @@ class CategoryController extends Controller
      *       )
      *  )
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request):Response
     {
         $data = $request->validated();
         if ($image=$request->file('image')) {
@@ -198,7 +200,7 @@ class CategoryController extends Controller
      *      )
      *  )
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category):Response
     {
         $category->delete();
 

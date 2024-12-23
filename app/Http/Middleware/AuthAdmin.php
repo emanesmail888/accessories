@@ -18,27 +18,6 @@ class AuthAdmin
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-//     public function handle(Request $request, Closure $next)
-//     {
-
-//         if(Auth::check() && Auth::user()->utype==='ADM'){
-//             return $next($request);
-
-// }
-//        return $next($request);
-
-// return redirect('/');
-    //     if(Auth::user()->utype==='ADM')
-    //     {
-    //         return $next($request);
-
-    //     }
-    //     else{
-    //         // session()->flush();
-    //         return redirect()->route('login');
-    //     }
-    //     return $next($request);
-    // }
 
     public function handle(Request $request, Closure $next)
     {

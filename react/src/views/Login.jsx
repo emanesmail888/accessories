@@ -17,7 +17,7 @@ export default function Login() {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       }
-      axiosClient.post('/login', payload)
+      axiosClient.post('/v1/login', payload)
         .then(({data}) => {
           setUser(data.user)
           setToken(data.token);

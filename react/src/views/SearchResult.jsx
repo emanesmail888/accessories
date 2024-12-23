@@ -70,13 +70,14 @@ function SearchResult() {
         const fetchData = async (catItem) => {
             try {
                 setLoading(true);
+
     
-                const res = await axiosClient.get(`/category_products/${catItem}`);
-                console.log(res.data[1]);
-                setResults(res.data[1]);
+                const res = await axiosClient.get(`/v1/category_products/${catItem}`);
+                console.log(res.data.products);
+                setResults(res.data.products);
                 setLoading(false);
     
-                setTotalPages(Math.ceil(res.data[1].length / ITEMS_PER_PAGE));
+                setTotalPages(Math.ceil(res.products.length / ITEMS_PER_PAGE));
     
             } catch (error) {
                 setLoading(false);
@@ -88,7 +89,7 @@ function SearchResult() {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                const result = await axiosClient.get(`/search/${query}`);
+                const result = await axiosClient.get(`/v1/search/${query}`);
     
                 console.log(result.data);
                 setLoading(false);
@@ -103,13 +104,18 @@ function SearchResult() {
             setPage(selected);
         };
 
+       
         const fetchCategories = async () => {
-            let url = "/home";
-            await axiosClient.get(url).then(({ data }) => {
-                console.log(data[1]);
-    
-                setCategories(data[1]);
-            });
+            let url = "/v1/home";
+            try {
+                const { data } = await axiosClient.get(url);
+                console.log(data);
+                
+                // Assuming categories are now in data.categories
+                setCategories(data.categories); // Update this line to match the correct key
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
         };
     
         const AddToWishlistHandler = (id) => {
@@ -202,7 +208,7 @@ function SearchResult() {
                                                                 {product.price}
                                                             </h2>
                                                             <p>
-                                                            <a href={`/pro/${product.id}`}>{product.product_title}</a>
+                                                            <a href={`/v1/pro/${product.id}`}>{product.product_title}</a>
                                                             </p>
                                                             {wishlistItems.filter(
                                                                 (w) =>
@@ -247,7 +253,7 @@ function SearchResult() {
                                                                     }
                                                                 </h2>
                                                                 <p>
-                                                                <a href={`/pro/${product.id}`}>{product.product_title}</a>
+                                                                <a href={`/v1/pro/${product.id}`}>{product.product_title}</a>
                                                                 </p>
                                                                 <a
                                                                     href={`/cart/${product.id}?qty=1`}

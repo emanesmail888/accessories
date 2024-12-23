@@ -25,7 +25,7 @@ function Products() {
 
       const getProducts = () => {
         setLoading(true)
-        axiosClient.get(`/admin/products?page=${currentPage}&limit=${itemsPerPage}`)
+        axiosClient.get(`/v1/admin/products?page=${currentPage}&limit=${itemsPerPage}`)
           .then(({ data }) => {
               console.log(data);
               console.log(data.meta.links);
@@ -46,7 +46,7 @@ function Products() {
         if (!window.confirm("Are you sure you want to delete this product?")) {
           return
         }
-        axiosClient.delete(`/admin/products/${product.id}`)
+        axiosClient.delete(`/v1/admin/products/${product.id}`)
           .then(() => {
             setNotification('Product was successfully deleted')
             getProducts()
@@ -92,7 +92,7 @@ function Products() {
                 }
             };
 
-            axiosClient.post(`/admin/markAsNewArrive/${product.id}`,{body:isChecked.checked,config})
+            axiosClient.post(`/v1/admin/markAsNewArrive/${product.id}`,{body:isChecked.checked,config})
               .then((response) => response.json())
               .then((data) => {
                 // Handle the response

@@ -55,7 +55,7 @@ function CategoryProducts() {
         try {
             setLoading(true);
 
-            const res = await axiosClient.get(`/category_products/${catItem}`);
+            const res = await axiosClient.get(`/v1/category_products/${catItem}`);
             console.log(res.data.a_products);
             setProducts(res.data.a_products);
             setLoading(false);
@@ -73,7 +73,7 @@ function CategoryProducts() {
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const result = await axiosClient.get(`/category_products/${id}`);
+            const result = await axiosClient.get(`/v1/category_products/${id}`);
 
             console.log(result.data.products);
             setLoading(false);
@@ -92,7 +92,7 @@ function CategoryProducts() {
     };
 
     const fetchCategories = async () => {
-        let url = "/home";
+        let url = "/v1/home";
         await axiosClient.get(url).then(({ data }) => {
             console.log(data.categories);
 

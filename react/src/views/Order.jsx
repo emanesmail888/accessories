@@ -140,7 +140,7 @@ function convertCurrency(egpAmount) {
 
   const getUser = () => {
     setLoading(true)
-    axiosClient.get('/user')
+    axiosClient.get('/v1/user')
      .then(({data}) => {
 
         setLoading(false)
@@ -234,7 +234,7 @@ function convertCurrency(egpAmount) {
                         </Col>
 
                         <Col md={2}>
-                          <Link to={`/pro/${item.id}`}>
+                          <Link to={`/v1/pro/${item.id}`}>
                           
                             {item.product_title}
                           </Link>

@@ -57,7 +57,7 @@ function Shop() {
 
 
       const fetchProducts = () => {
-        let url = '/shop';
+        let url = '/v1/shop';
 
 
         axiosClient.get(url)
@@ -77,7 +77,7 @@ function Shop() {
         setPage(selected);
       };
       const fetchCategories = () => {
-        let url = '/home';
+        let url = '/v1/home';
 
 
         axiosClient.get(url)
@@ -90,7 +90,7 @@ function Shop() {
     }
 
     const filterItem = (catItem) => {
-        let url = '/shop';
+        let url = '/v1/shop';
         axiosClient.get(url)
         .then(({ data }) => {
             console.log(data);
@@ -177,9 +177,9 @@ const selectedCat = categories.find(category => category.id === selectedCategory
                                                     {/* <button style={{color: 'red'}} onClick={() => AddToWishlistHandler(product.id)}>wishlist</button> */}
                                      {wishlistItems.filter((w) => product.id === w.product_id).length !== 0 ?
 
-                     <Link style={{color: '#d93d3d'}} onClick={() => removeFromWishlistHandler(product.id)}><i className="fa fa-heart fa-2x"></i></Link>
-                     :<Link  style={{color:' rgb(233, 144, 144)'}} onClick={() => AddToWishlistHandler(product.id)}><i className="fa fa-heart fa-2x " ></i></Link>
-                     }
+                                        <Link style={{color: '#d93d3d'}} onClick={() => removeFromWishlistHandler(product.id)}><i className="fa fa-heart fa-2x"></i></Link>
+                                        :<Link  style={{color:' rgb(233, 144, 144)'}} onClick={() => AddToWishlistHandler(product.id)}><i className="fa fa-heart fa-2x " ></i></Link>
+                                        }
 
                                                     <a href={`/cart/${product.id}?qty=1`} className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
                                                 </div>

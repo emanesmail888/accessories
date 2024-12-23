@@ -20,7 +20,7 @@ function AddCategory() {
           // eslint-disable-next-line react-hooks/rules-of-hooks
           useEffect(() => {
             setLoading(true)
-            axiosClient.get(`/admin/categories/${id}`)
+            axiosClient.get(`/v1/admin/categories/${id}`)
               .then(({data}) => {
                 setLoading(false)
                 setCategory(data.data)
@@ -52,7 +52,7 @@ function AddCategory() {
                 formData.append("image", category.image);
                    formData.append("_method", "PUT");
 
-             await  axiosClient.post(`/admin/categories/${category.id}`, formData,
+             await  axiosClient.post(`/v1/admin/categories/${category.id}`, formData,
             {
                 headers: {
                     // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -75,7 +75,7 @@ function AddCategory() {
                         console.error('Product creation error:', error);
                       }
           } else {
-            axiosClient.post('/admin/categories', formData)
+            axiosClient.post('/v1/admin/categories', formData)
             // .post("/admin/categories", formData)
 
               .then(() => {

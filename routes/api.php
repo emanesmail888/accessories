@@ -9,8 +9,8 @@ use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\ProductsCntroller;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CheckoutController;
-use App\Http\Controllers\Api\NewPasswordController;
-use App\Http\Controllers\Api\PasswordResetLinkController;
+use App\Http\Controllers\Api\GeneralController;
+
 
 
 /*
@@ -26,33 +26,32 @@ use App\Http\Controllers\Api\PasswordResetLinkController;
 
 
 
-Route::middleware(['auth:sanctum','verified'])->group(function () {
+Route::prefix('/v1')->middleware(['auth:sanctum','verified'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+   
     Route::post('/addOrder', [CheckoutController::class, 'placeOrder']);
-    Route::get('/getOrders/{id}', [ProductController::class, 'order_details']);
-    Route::post('/getOrders/{id}/pay', [ProductController::class, 'updateOrderToPaid']);
-    Route::post('/wishlist', [ProductController::class, 'wishlist']);
-    Route::post('/profile', [ProductController::class, 'addProfile']);
-    Route::post('/profile/{id}', [ProductController::class, 'updateProfile']);
-    Route::get('/profile', [ProductController::class, 'profile']);
-    Route::get('/userOrders', [ProductController::class, 'userOrders']);
-    Route::get('/wishlist', [ProductController::class, 'wishlistList']);
-    Route::get('/wishlist/remove/{id}', [ProductController::class, 'deleteWishlistItem']);
-    Route::get('/orders/remove/{id}', [ProductController::class, 'deleteOrder']);
-    Route::post('/add_review', [ProductController::class, 'add_review']);
-    Route::get('/review/delete/{id}', [ProductController::class, 'delete_review']);
+    Route::get('/getOrders/{id}', [CheckoutController::class, 'order_details']);
+    Route::post('/getOrders/{id}/pay', [CheckoutController::class, 'updateOrderToPaid']);
+    Route::post('/wishlist', [GeneralController::class, 'wishlist']);
+    Route::post('/profile', [GeneralController::class, 'addProfile']);
+    Route::post('/profile/{id}', [GeneralController::class, 'updateProfile']);
+    Route::get('/profile', [GeneralController::class, 'profile']);
+    Route::get('/userOrders', [CheckoutController::class, 'userOrders']);
+    Route::get('/wishlist', [GeneralController::class, 'wishlistList']);
+    Route::get('/wishlist/remove/{id}', [GeneralController::class, 'deleteWishlistItem']);
+    Route::get('/orders/remove/{id}', [CheckoutController::class, 'deleteOrder']);
+    Route::post('/add_review', [GeneralController::class, 'add_review']);
+    Route::get('/review/delete/{id}', [GeneralController::class, 'delete_review']);
 
 
 });
 
 
-Route::prefix('/admin')->middleware(['auth:sanctum','AuthAdmin'])->group(function () {
-
-
+Route::prefix('/v1/admin')->middleware(['auth:sanctum','AuthAdmin'])->group(function () {
     Route::apiResource('/users', UserController::class);
     // Route::apiResource('/products', ProductController::class);
     Route::get('/products', [ProductController::class,'index']);
@@ -61,25 +60,26 @@ Route::prefix('/admin')->middleware(['auth:sanctum','AuthAdmin'])->group(functio
     Route::post('/product/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{product}', [ProductController::class,'destroy']);
     Route::apiResource('/categories', CategoryController::class);
-    Route::post('/getOrders/{id}/deliver', [ProductController::class, 'updateOrderToDelivered']);
-    Route::get('/getAllOrders', [ProductController::class, 'allOrders']);
-    Route::post('/markAsNewArrive/{id}', [ProductController::class, 'markAsNewArrive']);
+    Route::post('/getOrders/{id}/deliver', [CheckoutController::class, 'updateOrderToDelivered']);
+    Route::get('/getAllOrders', [CheckoutController::class, 'allOrders']);
+    Route::post('/markAsNewArrive/{id}', [GeneralController::class, 'markAsNewArrive']);
 
 });
 
 
 
+Route::prefix('v1')->group(function () {
+    Route::post('/signup', [AuthController::class, 'signup']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::post('reset-password', [AuthController::class, 'reset']);
+    Route::get('/products_price/{min?}/{max?}',[GeneralController::class, 'priceList']);
+    Route::get('/category_products/{id}', [GeneralController::class, 'showProducts'])->name('showProducts');
+    Route::get('/pro/{id}', [GeneralController::class, 'product'])->name('showProduct');
+    Route::get('/home', [GeneralController::class, 'home'])->name('home');
+    Route::get('/shop', [GeneralController::class, 'shop'])->name('shop');
+    Route::post('/search', [GeneralController::class, 'search'])->name('search');
+    Route::get('/search/{query?}', [GeneralController::class, 'searchQuery'])->name('searchQuery');
+    Route::post('/contact_us', [GeneralController::class, 'contact_us'])->name('contact_us');
 
-Route::post('/signup', [AuthController::class, 'signup']);
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
-Route::post('reset-password', [AuthController::class, 'reset']);
-Route::get('/products_price/{min?}/{max?}',[ProductController::class, 'priceList']);
-Route::get('/category_products/{id}', [ProductController::class, 'showProducts'])->name('showProducts');
-Route::get('/pro/{id}', [ProductController::class, 'product'])->name('showProduct');
-Route::get('/home', [ProductController::class, 'home'])->name('home');
-Route::get('/shop', [ProductController::class, 'shop'])->name('shop');
-Route::post('/search', [ProductController::class, 'search'])->name('search');
-Route::get('/search/{query?}', [ProductController::class, 'searchQuery'])->name('searchQuery');
-Route::post('/contact_us', [ProductController::class, 'contact_us'])->name('contact_us');
+});

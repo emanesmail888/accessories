@@ -11,7 +11,7 @@ function NewArrival() {
     }, []);
 
     const fetchProducts = () => {
-        axiosClient.get("/home").then(({ data }) => {
+        axiosClient.get("/v1/home").then(({ data }) => {
             console.log(data.newArrival_products.slice(4, 9));
 
             //   setLoading(false)
@@ -30,7 +30,7 @@ function NewArrival() {
                     <div key={p1.id} className="col-sm-3">
 
                         <div className="list_2i clearfix mgt-center">
-                        <a href={`/pro/${p1.id}`}>
+                        <a href={`/v1/pro/${p1.id}`}>
                                         <img
                                             src={`${import.meta.env.VITE_API_BASE_URL}/products/images/`+p1.product_img}
                                             className="iw"

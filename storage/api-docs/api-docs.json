@@ -1,24 +1,183 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": " Api Documentation",
-        "description": " Api Documentation",
+        "title": " API Documentation  ",
+        "description": "API Documentation Of Accessories Project",
         "contact": {
-            "name": "Eman Esmail",
-            "email": "emanzidanelgmal@gmail.com"
+            "name": "Swagger API "
         },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "1.0.0"
+        "version": "1.0"
     },
     "servers": [
         {
-            "url": "/api"
+            "url": "/api/v1"
         }
     ],
     "paths": {
+        "/signup": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "SignUp To Site",
+                "description": "SignUp To Site",
+                "operationId": "signup",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Test category Title"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "info@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Aa133456@"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Aa133456@"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login To Site",
+                "description": "Login To Site",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "info@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Aa133456@"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": ""
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout a user",
+                "operationId": "28d48c13fca984400ac8de99f54ee13a",
+                "responses": {
+                    "204": {
+                        "description": "User Logout successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get logged-in user details",
+                "operationId": "544f9727dac5a94a48ed03fd7c829e40",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/admin/categories": {
             "get": {
                 "tags": [
@@ -258,5 +417,20 @@
                 }
             }
         }
-    }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Eman Esmail",
+            "description": "Api Documentation"
+        }
+    ]
 }

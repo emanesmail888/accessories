@@ -36,7 +36,7 @@ function AddUser() {
     const onSubmit = ev => {
       ev.preventDefault()
       if (user.id) {
-        axiosClient.put(`/admin/users/${user.id}`, user)
+        axiosClient.put(`/v1/admin/users/${user.id}`, user)
           .then(() => {
             setNotification('User was successfully updated')
             navigate('/admin/users')
@@ -48,7 +48,7 @@ function AddUser() {
             }
           })
       } else {
-        axiosClient.post('/admin/users', user)
+        axiosClient.post('/v1/admin/users', user)
           .then(() => {
             setNotification('User was successfully created')
             navigate('/admin/users')

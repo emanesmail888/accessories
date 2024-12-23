@@ -9,6 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use App\Notifications\CustomResetPasswordNotification;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+
 
 
 class User extends Authenticatable implements CanResetPassword
@@ -50,17 +54,19 @@ class User extends Authenticatable implements CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function wishlist()
-{
-    return $this->hasMany(Wishlist::class);
-}
 
-public function profile(){
-    return $this->hasOne(Profile::class,'user_id');
-}
+    public function wishlist(): HasMany
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class,'user_id');
+    }
 
 
-public function reviews()
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }

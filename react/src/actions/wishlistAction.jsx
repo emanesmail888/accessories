@@ -7,23 +7,10 @@ import {
 
 } from "./types";
 
-/* ACTION CREATOR USED IN CartScreen COMPONENT */
 
-/* FOR ADDING PRODUCTS TO CART */
-
-// export const addToWishlist = (productId) => {
-//     return async (dispatch) => {
-//         try {
-//             const response = await axios.post('/api/wishlist', { productId });
-//             dispatch({ type: 'ADD_TO_WISHLIST_SUCCESS', payload: response.data });
-//         } catch (error) {
-//             dispatch({ type: 'ADD_TO_WISHLIST_ERROR', payload: error.message });
-//         }
-//     };
-// };
 export const addToWishlist = (productId) => async (dispatch, getState) => {
 
-  const { data } = await axiosClient.post('/wishlist', { productId });
+  const { data } = await axiosClient.post('/v1/wishlist', { productId });
 
 
   console.log(data[0])
@@ -48,32 +35,12 @@ try{
 
 };
 
-/* FOR REMOVING PRODUCTS FROM CART */
-// export const removeFromWishlist = (id) => (dispatch, getState) => {
-//   dispatch({
-//     type: Wishlist_REMOVE_ITEM,
-//     payload: id,
-//   });
 
-//   localStorage.setItem("Items", JSON.stringify(getState().wishlist.Items));
-// };
-
-// export const addToWishlists = (productId) => {
-//     return async (dispatch) => {
-//         try {
-//             const response = await axiosClient.post('/wishlist', { productId });
-//             console.log(response.data)
-//             dispatch({ type: ADD_TO_WISHLIST_SUCCESS, payload: response.data });
-//         } catch (error) {
-//             dispatch({ type: ADD_TO_WISHLIST_ERROR, payload: error.message });
-//         }
-//     };
-// };
 
 export const fetchWishlist = () => {
     return async (dispatch) => {
         try {
-            const data = await axiosClient.get('/wishlist');
+            const data = await axiosClient.get('/v1/wishlist');
             console.log(data.data[0])
             dispatch({ type: FETCH_WISHLIST_SUCCESS, payload: data.data[0] });
         } catch (error) {
@@ -87,50 +54,13 @@ export const fetchWishlist = () => {
 };
 
 
-// export const removeFromWishlist = (wishlistItemId) => {
-//     return async (dispatch) => {
-//         try {
-//             await axiosClient.delete(`/wishlist/${wishlistItemId}`);
-//             dispatch({ type: 'REMOVE_FROM_WISHLIST_SUCCESS', payload: wishlistItemId });
-//         } catch (error) {
-//             dispatch({ type: 'REMOVE_FROM_WISHLIST_ERROR', payload: error.message });
-//         }
-//     };
-// };
 
 
-
-
-
-
-// import axios from 'axios';
-
-// export const fetchWishlist = () => {
-//     return async (dispatch) => {
-//         try {
-//             const response = await axios.get('/api/wishlist');
-//             dispatch({ type: 'FETCH_WISHLIST_SUCCESS', payload: response.data });
-//         } catch (error) {
-//             dispatch({ type: 'FETCH_WISHLIST_ERROR', payload: error.message });
-//         }
-//     };
-// };
-
-// export const addToWishlist = (productId) => {
-//     return async (dispatch) => {
-//         try {
-//             const response = await axios.post('/api/wishlist', { productId });
-//             dispatch({ type: 'ADD_TO_WISHLIST_SUCCESS', payload: response.data });
-//         } catch (error) {
-//             dispatch({ type: 'ADD_TO_WISHLIST_ERROR', payload: error.message });
-//         }
-//     };
-// };
 
 export const removeFromWishlist = (wishlistItemId) => {
     return async (dispatch, getState) => {
         try {
-         const  data= await axiosClient.get(`/wishlist/remove/${wishlistItemId}`);
+         const  data= await axiosClient.get(`/v1/wishlist/remove/${wishlistItemId}`);
             dispatch({ type: REMOVE_FROM_WISHLIST_SUCCESS, payload: wishlistItemId });
 
         } catch (error) {

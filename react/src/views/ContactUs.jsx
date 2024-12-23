@@ -21,7 +21,7 @@ function ContactUs() {
     const onSubmit = ev => {
         ev.preventDefault()
 
-          axiosClient.post('/contact_us', contact)
+          axiosClient.post('/v1/contact_us', contact)
             .then(() => {
               setNotification('Your Message was successfully created')
               navigate('/home')

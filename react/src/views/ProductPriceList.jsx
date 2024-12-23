@@ -49,7 +49,7 @@ function ProductPriceList() {
     const fetchProducts = () => {
         setLoading(true);
 
-        let url = `/products_price?min=${min}&max=${max}`;
+        let url = `/v1/products_price?min=${min}&max=${max}`;
 
 
         axiosClient.get(url)
@@ -74,7 +74,7 @@ function ProductPriceList() {
         setPage(selected);
       };
       const fetchCategories = () => {
-        let url = '/home';
+        let url = '/v1/home';
 
 
         axiosClient.get(url)
@@ -87,7 +87,7 @@ function ProductPriceList() {
     }
 
     const filterItem = (catItem) => {
-        let url = '/shop';
+        let url = '/v1/shop';
         axiosClient.get(url)
         .then(({ data }) => {
             console.log(data);
@@ -189,7 +189,7 @@ const selectedCat = categories.find(category => category.id === selectedCategory
                                                 <div className="product-overlay">
                                                     <div className="overlay-content">
                                                         <h2>{product.price}</h2>
-                                                        <p><a href={`/pro/${product.id}`}>{product.product_title}</a></p>
+                                                        <p><a href={`/v1/pro/${product.id}`}>{product.product_title}</a></p>
                                                         <a href={`/cart/${product.id}?qty=1`} className="btn btn-default add-to-cart"><i className="fa fa-shopping-cart"></i>Add to cart</a>
                                                     </div>
                                                 </div>

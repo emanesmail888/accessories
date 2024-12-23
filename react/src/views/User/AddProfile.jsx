@@ -36,11 +36,11 @@ function AddProfile() {
     useEffect(() => {
         setLoading(true)
 
-        axiosClient.get('/user')
+        axiosClient.get('/v1/user')
         .then(({data}) => {
            setUser(data)
         })
-        axiosClient.get('/profile')
+        axiosClient.get('/v1/profile')
         .then(({data}) => {
             setProfile(data[0])
             console.log(data[0].user_id)
@@ -61,7 +61,7 @@ function AddProfile() {
         useEffect(() => {
 
         setLoading(true)
-        axiosClient.get(`/profile`)
+        axiosClient.get(`/v1/profile`)
             .then(({data}) => {
             setLoading(false)
             setMobile(data.mobile)
@@ -94,7 +94,7 @@ function AddProfile() {
 
 
 
-                        const response = await axiosClient.post(`/profile/${id}`, formData,
+                        const response = await axiosClient.post(`/v1/profile/${id}`, formData,
                         {
                             headers: {
                               'Content-Type': 'multipart/form-data',
@@ -131,7 +131,7 @@ function AddProfile() {
 
 
 
-      const response = await axiosClient.post('/profile', formData,
+      const response = await axiosClient.post('/v1/profile', formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data',

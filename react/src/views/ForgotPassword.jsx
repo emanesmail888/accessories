@@ -17,7 +17,7 @@ function ForgotPassword() {
         email: emailRef.current.value,
 
       }
-      axiosClient.post('/forgot-password', payload
+      axiosClient.post('/v1/forgot-password', payload
 
       )
         .then(({data}) => {
